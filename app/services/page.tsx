@@ -2,13 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Fragment, useEffect, useState } from "react";
-import {
-  AnimatedSection,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/AnimatedSection";
+import { Fragment } from "react";
+import { AnimatedSection } from "@/components/AnimatedSection";
 import {
   HardHat,
   Sparkles,
@@ -20,7 +15,6 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/components/LanguageContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
 import clsx from "clsx";
 
 const HERO_IMG = "/images/Construction_project_HERO.png";
@@ -140,51 +134,8 @@ export default function ServicesPage() {
     },
   ] as const;
 
-  // Hero intro: ASCII reveal then typed two-line headline.
-  const [introDone, setIntroDone] = useState(false);
-  const [hideField, setHideField] = useState(false);
-  const [typed, setTyped] = useState(0);
-  const [doneTyping, setDoneTyping] = useState(false);
-
-  const line1 = ar ? "القدرات" : "Capabilities";
-  const line2 = ar ? "والخدمات" : "& Services";
-  const shown1 = doneTyping ? line1 : line1.slice(0, Math.min(typed, line1.length));
-  const shown2 = doneTyping ? line2 : typed > line1.length ? line2.slice(0, typed - line1.length) : "";
-  const caretOn1 = introDone && !doneTyping && typed <= line1.length;
-  const caretOn2 = introDone && !doneTyping && typed > line1.length;
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setIntroDone(true);
-      setHideField(true);
-      setTyped(999);
-      setDoneTyping(true);
-      return;
-    }
-    const t1 = setTimeout(() => setIntroDone(true), 3500);
-    const t2 = setTimeout(() => setHideField(true), 4500);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!introDone || doneTyping) return;
-    const len = line1.length + line2.length;
-    let i = 0;
-    const id = setInterval(() => {
-      i += 1;
-      setTyped(i);
-      if (i >= len) {
-        clearInterval(id);
-        setDoneTyping(true);
-      }
-    }, 55);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [introDone]);
+  const line1 = ar ? "خدمات" : "Facility";
+  const line2 = ar ? "المرافق" : "Services";
 
   return (
     <div className="bg-background flex flex-col min-h-screen">
@@ -193,63 +144,36 @@ export default function ServicesPage() {
         <div className="absolute inset-0 z-0">
           <Image
             src={HERO_IMG}
-            alt={ar ? "أعمال البناء والخدمات" : "Construction works and services"}
+            alt={ar ? "خدمات المرافق في عُمان" : "Facility services in Oman"}
             fill
             priority
-            className={clsx("object-cover object-center transition-opacity duration-1000", introDone ? "opacity-40" : "opacity-0")}
+            className="object-cover object-center opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src={HERO_IMG} charset=" .:-=+*#%@" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-6 flex items-center gap-3"
-            >
+            <div className="mb-6 flex items-center gap-3">
               <Briefcase className="w-6 h-6 text-accent" />
               <span className={clsx("text-accent font-serif italic tracking-wide", isRTL && "font-arabic")}>
                 {ar
-                  ? "أربع قدرات · معيار واحد"
-                  : "Four Capabilities · One Standard"}
+                  ? "خمس قدرات · معيار واحد"
+                  : "Five Capabilities · One Standard"}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{line1} {line2}</span>
-              <span aria-hidden="true">
-                {shown1}
-                {caretOn1 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-                <br />
-                <span className="text-accent">{shown2}</span>
-                {caretOn2 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              </span>
+              {line1}
+              <br />
+              <span className="text-accent">{line2}</span>
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8"
-            >
+            <div className="mt-8">
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance", isRTL && "text-start")}>
                 {ar
-                  ? "من البناء العام والبنية التحتية إلى إدارة المرافق والأنظمة الذكية - نقدم خدماتنا في عمان بمعيار واحد لا يتزحزح، ونشارك في المناقصات الحكومية والخاصة."
-                  : "From general construction and infrastructure to facilities management and smart systems - we deliver across Oman to a single uncompromising standard, and bid for government and private contracts."}
+                  ? "تعمل مجموعتنا عبر خمس قدرات متكاملة تشمل الصيانة والتوصيلات، والبناء والبنية التحتية، وإدارة المرافق، والأنظمة الذكية، والتجارة والتوزيع - بمعيار جودة واحد في جميع أنحاء عُمان."
+                  : "Our group operates across five integrated capabilities: maintenance and utilities, construction and infrastructure, facilities management, smart systems, and trading and distribution - delivered across Oman to one uncompromising standard."}
               </p>
               <Link
                 href="/contact"
@@ -257,54 +181,12 @@ export default function ServicesPage() {
               >
                 {t.common.requestAQuote}
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 2. CAPABILITIES OVERVIEW STRIP */}
-      <section className="py-20 md:py-24 relative z-10 bg-background border-b border-line">
-        <div className="container mx-auto px-4 md:px-8">
-          <AnimatedSection direction="up" className="mb-12 md:mb-16 text-center">
-            <h2 className={clsx("text-3xl md:text-5xl font-serif font-bold text-foreground uppercase tracking-tighter", isRTL && "font-arabic")}>
-              {ar ? (
-                <>أربع قدرات. <span className="text-accent italic font-normal font-sans">معيار واحد.</span></>
-              ) : (
-                <>Four Capabilities. <span className="text-accent italic font-normal">One Standard.</span></>
-              )}
-            </h2>
-            <div className="w-24 h-px bg-accent mx-auto mt-8" />
-            <p className={clsx("text-muted font-normal max-w-2xl mx-auto mt-8 text-balance", isRTL && "text-start")}>
-              {ar
-                ? "تعمل مجموعتنا عبر أربعة مجالات تكاملية - مدعومة بنفس الانضباط في الجودة الذي تقدمه أقسامنا الأخرى للسلع الزراعية والمواد الصناعية."
-                : "Our group operates across four integrated areas - underwritten by the same quality discipline our agricultural commodities and industrial materials divisions are known for."}
-            </p>
-          </AnimatedSection>
-
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {capabilities.map((c) => {
-              const Icon = c.icon;
-              return (
-                <StaggerItem
-                  key={c.key}
-                  direction="up"
-                  className="bg-surface p-6 border border-line rounded-sm hover:border-accent/40 transition-colors group"
-                >
-                  <Icon className="w-7 h-7 text-accent mb-4 group-hover:scale-110 transition-transform" />
-                  <span className={clsx("block text-[10px] uppercase tracking-[0.25em] text-muted font-bold mb-2", isRTL && "font-arabic")}>
-                    {c.label}
-                  </span>
-                  <h3 className={clsx("text-base font-serif font-bold text-foreground leading-tight", isRTL && "font-arabic")}>
-                    {c.title}
-                  </h3>
-                </StaggerItem>
-              );
-            })}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      {/* 3. DEEP-DIVE: alternating-side blocks for each capability */}
+      {/* Capability details */}
       {capabilities.map((c, idx) => {
         const Icon = c.icon;
         const flipped = idx % 2 === 1; // alternate sides

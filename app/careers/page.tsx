@@ -3,12 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  AnimatedSection,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/AnimatedSection";
-import { Users, Briefcase, MapPin, Globe, CheckCircle2, FileText } from "lucide-react";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { Users, Briefcase, MapPin, Globe, CheckCircle2 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useLanguage } from "@/components/LanguageContext";
 import { useTheme } from "@/components/ThemeContext";

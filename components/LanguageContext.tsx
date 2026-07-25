@@ -17,10 +17,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   // Load preference from localStorage if available
   useEffect(() => {
-    const savedLang = localStorage.getItem("preferred-lang") as Language;
-    if (savedLang === "ar" || savedLang === "en") {
-      setLangState(savedLang);
-    }
+    const frame = window.requestAnimationFrame(() => {
+      const savedLang = localStorage.getItem("preferred-lang") as Language;
+      if (savedLang === "ar" || savedLang === "en") {
+        setLangState(savedLang);
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   const setLang = (newLang: Language) => {

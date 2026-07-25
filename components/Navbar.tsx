@@ -10,11 +10,12 @@ import { useLanguage } from "./LanguageContext";
 import { useTheme } from "./ThemeContext";
 import EmblemMark from "./EmblemMark";
 import { translations } from "@/lib/translations";
+import { ACTIVITY_LINKS, LEGACY_COMMODITY_ROUTES } from "@/lib/siteData";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileActivitiesOpen, setMobileActivitiesOpen] = useState(false);
   const pathname = usePathname();
   const { lang, setLang, isRTL } = useLanguage();
   const { theme, toggleTheme } = useTheme();
@@ -22,21 +23,15 @@ export default function Navbar() {
 
   const PRIMARY_NAV = [
     { name: t.nav.about, href: "/about", key: "About" },
-    { name: t.nav.services, href: "/services", key: "Services" },
+    { name: t.nav.activities, href: "/services", key: "Activities" },
     { name: t.nav.careers, href: "/careers", key: "Careers" },
     { name: t.common.contact, href: "/contact", key: "Contact" },
   ];
 
-  const SERVICE_PAGES = [
-    { name: lang === "ar" ? "نظرة عامة على الخدمات" : "Services Overview", href: "/services", key: "Services" },
-    { name: t.nav.agriculture, href: "/agriculture", key: "Agriculture" },
-    { name: t.nav.construction, href: "/construction", key: "Construction" },
-    { name: t.nav.sulfur, href: "/sulfur", key: "Sulfur" },
-    { name: t.nav.food, href: "/food", key: "Food" },
-    { name: t.nav.autoParts, href: "/auto-parts", key: "AutoParts" },
-    { name: t.nav.uniforms, href: "/uniforms", key: "Uniforms" },
-    { name: t.nav.events, href: "/events", key: "Events" },
-  ];
+  const ACTIVITY_PAGES = ACTIVITY_LINKS.map((page) => ({
+    ...page,
+    name: t.nav[page.labelKey],
+  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,37 +45,35 @@ export default function Navbar() {
     if (pathname === "/about") return "About";
     if (pathname === "/contact") return "Contact";
     if (pathname === "/careers") return "Careers";
-    if (pathname === "/construction") return "Construction";
-    if (pathname === "/sulfur") return "Sulfur";
-    if (pathname === "/food") return "Food";
-    if (pathname === "/auto-parts") return "AutoParts";
-    if (pathname === "/uniforms") return "Uniforms";
-    if (pathname === "/services") return "Services";
-    if (pathname === "/events") return "Events";
-    if (pathname === "/agriculture") return "Agriculture";
+    if (LEGACY_COMMODITY_ROUTES.some((route) => route === pathname)) return "Commodities";
+
+    const activeActivity = ACTIVITY_PAGES.find(
+      (page) => pathname === page.href || pathname.startsWith(`${page.href}/`)
+    );
+
+    if (activeActivity) return activeActivity.key;
     return "";
   };
 
   const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   const activeKey = getActiveKey();
-  const servicesActive = activeKey === "Services" || SERVICE_PAGES.some((page) => page.key === activeKey);
+  const activitiesActive = ACTIVITY_PAGES.some((page) => page.key === activeKey);
 
   return (
     <>
       <motion.header
         initial={{ opacity: 0, y: -12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className={clsx(
-          "z-50 transition-all duration-500 text-foreground",
-          "md:fixed md:top-0 md:left-0 md:right-0",
-          "sticky top-0",
+          "sticky top-0 z-50 border-b py-1.5 text-foreground backdrop-blur-md",
+          "transition-[background-color,border-color,box-shadow] duration-300",
           isScrolled
-            ? "bg-background/80 backdrop-blur-xl shadow-premium py-2 border-b border-line"
-            : "bg-background/60 backdrop-blur-lg py-4 md:bg-background/30 md:backdrop-blur-sm shadow-sm"
+            ? "border-line bg-background/95 shadow-premium"
+            : "border-line/70 bg-background/90 shadow-sm"
         )}
       >
-        <div className="container mx-auto px-4 lg:px-6 xl:px-10 flex justify-between md:flex-row items-center">
+        <div className="container mx-auto flex min-h-14 items-center justify-between gap-3 px-4 lg:px-6 xl:px-10">
           {/* Logo */}
           <Link href="/" className="flex items-center group justify-self-start -ml-2">
             <span className="relative block">
@@ -89,22 +82,22 @@ export default function Navbar() {
                 className="absolute inset-[-25%] rounded-full pointer-events-none opacity-0 dark:opacity-100 transition-opacity duration-500"
                 style={{ background: "radial-gradient(circle at center, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 40%, transparent 65%)" }}
               />
-              <EmblemMark size="h-[80px] w-[80px]" />
+              <EmblemMark size="h-14 w-14" />
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav
-            className="hidden md:flex items-center gap-1 bg-foreground/5 backdrop-blur-md p-1.5 rounded-full border border-line mx-auto shadow-inner"
+            className="mx-auto hidden items-center gap-1 rounded-full border border-line bg-foreground/5 p-1.5 shadow-inner backdrop-blur-md lg:flex"
             onMouseLeave={() => setHoveredKey(null)}
           >
             {PRIMARY_NAV.map((div) => {
               const isActive = activeKey === div.key;
               const isHovered = hoveredKey === div.key;
               const isContact = div.key === "Contact";
-              const isServices = div.key === "Services";
+              const isActivities = div.key === "Activities";
 
-              if (isServices) {
+              if (isActivities) {
                 return (
                   <div
                     key={div.key}
@@ -114,18 +107,18 @@ export default function Navbar() {
                     <button
                       type="button"
                       aria-haspopup="menu"
-                      aria-label={lang === "ar" ? "فتح قائمة الخدمات والأنشطة" : "Open Services & Activities menu"}
+                      aria-label={lang === "ar" ? "فتح قائمة الأنشطة" : "Open Activities menu"}
                       className={clsx(
                         "relative px-5 py-2 rounded-full text-[10px] xl:text-xs font-semibold premium-tracking transition-all duration-300 uppercase flex items-center gap-1.5",
-                        servicesActive ? "text-background" : "text-foreground/70 hover:text-foreground"
+                        activitiesActive ? "text-background" : "text-foreground/70 hover:text-foreground"
                       )}
                     >
-                      {(servicesActive || isHovered) && (
+                      {(activitiesActive || isHovered) && (
                         <motion.div
                           layoutId="nav-pill"
                           className={clsx(
                             "absolute inset-0 rounded-full -z-10 shadow-lg",
-                            servicesActive ? "bg-accent" : "bg-foreground/10"
+                            activitiesActive ? "bg-accent" : "bg-foreground/10"
                           )}
                           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                         />
@@ -139,13 +132,13 @@ export default function Navbar() {
                       isRTL ? "right-0" : "left-0"
                     )}>
                       <div className="w-72 rounded-2xl border border-line bg-background/95 p-2 shadow-2xl backdrop-blur-xl">
-                        {SERVICE_PAGES.map((page) => (
+                        {ACTIVITY_PAGES.map((page) => (
                           <Link
                             key={page.key}
                             href={page.href}
                             className={clsx(
                               "flex items-center justify-between rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-colors",
-                              pathname === page.href
+                              activeKey === page.key
                                 ? "bg-accent text-background"
                                 : "text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
                             )}
@@ -197,7 +190,7 @@ export default function Navbar() {
             </button>
 
             {/* Desktop Language Toggle */}
-            <div className="hidden md:block">
+            <div className="hidden lg:block">
               <button
                 onClick={() => setLang(lang === "en" ? "ar" : "en")}
                 className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-foreground/5 border border-line text-foreground text-[10px] font-bold uppercase premium-tracking hover:bg-accent hover:text-background transition-all"
@@ -209,7 +202,7 @@ export default function Navbar() {
 
             {/* Mobile menu button */}
             <button
-              className="md:hidden flex items-center justify-center p-2.5 bg-foreground/10 text-foreground rounded-full transition-all hover:bg-accent hover:text-background relative z-[60] border border-line"
+              className="relative z-[60] flex items-center justify-center rounded-full border border-line bg-foreground/10 p-2.5 text-foreground transition-all hover:bg-accent hover:text-background lg:hidden"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Open menu"
             >
@@ -227,11 +220,11 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.02 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-background/98 backdrop-blur-3xl text-foreground z-[9999] p-6 flex flex-col overflow-y-auto overscroll-contain"
+            className="fixed inset-0 z-[9999] flex flex-col overflow-y-auto overscroll-contain bg-background/98 p-4 text-foreground backdrop-blur-xl sm:p-6"
           >
             <div className="flex justify-between items-center mb-6 pb-4 border-b border-line">
-              <div className="flex items-center gap-4 group">
-                <EmblemMark size="h-[75px] w-[75px]" />
+              <div className="group flex items-center gap-2 sm:gap-3">
+                <EmblemMark size="h-14 w-14" />
                 {/* Mobile Language Toggle */}
                 <button
                   onClick={() => setLang(lang === "en" ? "ar" : "en")}
@@ -276,25 +269,25 @@ export default function Navbar() {
                 </h4>
                 {PRIMARY_NAV.map((div) => (
                   <div key={div.key} className="border-b border-line last:border-0">
-                    {div.key === "Services" ? (
+                    {div.key === "Activities" ? (
                       <>
                         <div className="flex items-center">
                           <button
                             type="button"
-                            onClick={() => setMobileServicesOpen((open) => !open)}
-                            aria-label={lang === "ar" ? "عرض صفحات الخدمات والأنشطة" : "Show Services & Activities pages"}
-                            aria-expanded={mobileServicesOpen}
+                            onClick={() => setMobileActivitiesOpen((open) => !open)}
+                            aria-label={lang === "ar" ? "عرض صفحات الأنشطة" : "Show Activities pages"}
+                            aria-expanded={mobileActivitiesOpen}
                             className={clsx(
                               "flex flex-1 items-center justify-between py-3.5 text-lg font-serif transition-colors",
-                              servicesActive ? "text-accent" : "text-foreground hover:text-accent"
+                              activitiesActive ? "text-accent" : "text-foreground hover:text-accent"
                             )}
                           >
                             <span>{div.name}</span>
-                            <ChevronDown className={clsx("me-3 w-5 h-5 text-accent transition-transform", mobileServicesOpen && "rotate-180")} />
+                            <ChevronDown className={clsx("me-3 w-5 h-5 text-accent transition-transform", mobileActivitiesOpen && "rotate-180")} />
                           </button>
                         </div>
                         <AnimatePresence initial={false}>
-                          {mobileServicesOpen && (
+                          {mobileActivitiesOpen && (
                             <motion.div
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: "auto" }}
@@ -302,14 +295,14 @@ export default function Navbar() {
                               className="overflow-hidden"
                             >
                               <div className="pb-3 ps-4 flex flex-col">
-                                {SERVICE_PAGES.map((page) => (
+                                {ACTIVITY_PAGES.map((page) => (
                                   <Link
                                     key={page.key}
                                     href={page.href}
                                     onClick={() => setMobileMenuOpen(false)}
                                     className={clsx(
                                       "py-2.5 text-sm font-semibold",
-                                      pathname === page.href ? "text-accent" : "text-muted hover:text-accent"
+                                      activeKey === page.key ? "text-accent" : "text-muted hover:text-accent"
                                     )}
                                   >
                                     {page.name}

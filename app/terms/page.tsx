@@ -59,7 +59,7 @@ export default function TermsOfServicePage() {
               4. Governing Law
             </h2>
             <p className="mb-4">
-              Any claim relating to {COMPANY.name}'s web platform or operations
+              Any claim relating to {COMPANY.name}&apos;s web platform or operations
               shall be governed by the laws of the Sultanate of Oman without regard
               to its conflict of law provisions.
             </p>

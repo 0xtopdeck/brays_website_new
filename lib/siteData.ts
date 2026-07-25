@@ -1,7 +1,7 @@
 export const COMPANY = {
   name: "Two in One LLC",
   shortName: "TWO IN ONE",
-  tagline: "Two Disciplines. One Standard.",
+  tagline: "Expertise in Motion. One Trusted Standard.",
   email: "business@twoinone.llc",
   emailGeneral: "info@twoinone.llc",
   phone: "+96891221958",
@@ -11,18 +11,44 @@ export const COMPANY = {
     ar: "سلطنة عُمان، محافظة ظفار - صلالة",
   },
   cr: "1201497",
-  divisions: [
-    {
-      name: "Agriculture",
-      href: "/agriculture",
-    },
-    {
-      name: "Industrial Construction",
-      href: "/construction",
-    },
-    {
-      name: "Sulfur Trading",
-      href: "/sulfur",
-    },
-  ],
 };
+
+export const ACTIVITY_LINKS = [
+  {
+    key: "Tours",
+    labelKey: "tours",
+    href: "/tours",
+  },
+  {
+    key: "Events",
+    labelKey: "events",
+    href: "/events",
+  },
+  {
+    key: "FacilityServices",
+    labelKey: "facilityServices",
+    href: "/services",
+  },
+  {
+    key: "Uniforms",
+    labelKey: "uniforms",
+    href: "/uniforms",
+  },
+  {
+    key: "AutoParts",
+    labelKey: "machineryAutoParts",
+    href: "/auto-parts",
+  },
+  {
+    key: "Commodities",
+    labelKey: "commodities",
+    href: "/commodities",
+  },
+] as const;
+
+export const LEGACY_COMMODITY_ROUTES = [
+  "/agriculture",
+  "/construction",
+  "/sulfur",
+  "/food",
+] as const;

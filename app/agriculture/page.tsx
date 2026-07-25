@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import {
   AnimatedSection,
   StaggerContainer,
@@ -12,7 +10,6 @@ import {
 import { Wheat, Droplets, Ship } from "lucide-react";
 import { useLanguage } from "@/components/LanguageContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
 import clsx from "clsx";
 
 export default function AgriculturePage() {
@@ -40,115 +37,40 @@ export default function AgriculturePage() {
     },
   ];
 
-  // Hero intro: ~3s swaying wheat-symbol field → real photo → typed headline.
-  const [introDone, setIntroDone] = useState(false);
-  const [hideField, setHideField] = useState(false);
-  const [typed, setTyped] = useState(0);
-  const [doneTyping, setDoneTyping] = useState(false);
-
   const line1 = lang === "ar" ? "الزراعة" : "Global";
   const line2 = lang === "ar" ? "العالمية" : "Agriculture";
-  const shown1 = doneTyping ? line1 : line1.slice(0, Math.min(typed, line1.length));
-  const shown2 = doneTyping ? line2 : typed > line1.length ? line2.slice(0, typed - line1.length) : "";
-  const caretOn1 = introDone && !doneTyping && typed <= line1.length;
-  const caretOn2 = introDone && !doneTyping && typed > line1.length;
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setIntroDone(true);
-      setHideField(true);
-      setTyped(999);
-      setDoneTyping(true);
-      return;
-    }
-    const t1 = setTimeout(() => setIntroDone(true), 3500);
-    const t2 = setTimeout(() => setHideField(true), 4500);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!introDone || doneTyping) return;
-    const len = line1.length + line2.length;
-    let i = 0;
-    const id = setInterval(() => {
-      i += 1;
-      setTyped(i);
-      if (i >= len) {
-        clearInterval(id);
-        setDoneTyping(true);
-      }
-    }, 55);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [introDone]);
 
   return (
     <div className="bg-background flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
       <section className="relative w-full h-[70vh] min-h-[500px] flex items-center overflow-hidden bg-[#06080b]">
-        {/* Real hero image — fades in once the wheat-field intro completes */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/wheat_brays_hero.png"
             alt="Medium-Hard Wheat Field"
             fill
             priority
-            className={clsx(
-              "object-cover object-center saturate-150 transition-opacity duration-1000",
-              introDone ? "opacity-40 hover:opacity-60" : "opacity-0"
-            )}
+            className="object-cover object-center saturate-150 opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {/* ASCII "materialize" intro, then fades to reveal the photo */}
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src="/images/wheat_brays_hero.png" charset=" .:-=+*#%@" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-6 flex items-center gap-3"
-            >
+            <div className="mb-6 flex items-center gap-3">
               <Wheat className="w-6 h-6 text-accent-2" />
               <span className="text-accent-2 font-serif italic tracking-wide">
                 {t.agriculture.hero.titleGold}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{line1} {line2}</span>
-              <span aria-hidden="true">
-                {shown1}
-                {caretOn1 && <span className="animate-caret font-sans font-normal text-accent-2">|</span>}
-                <br />
-                <span className="text-accent-2">{shown2}</span>
-                {caretOn2 && <span className="animate-caret font-sans font-normal text-accent-2">|</span>}
-              </span>
+              {line1}
+              <br />
+              <span className="text-accent-2">{line2}</span>
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8"
-            >
+            <div className="mt-8">
               <p className="text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance">
                 {t.agriculture.hero.desc}
               </p>
@@ -158,7 +80,7 @@ export default function AgriculturePage() {
               >
                 {t.common.requestAQuote}
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -178,7 +100,7 @@ export default function AgriculturePage() {
             <div className="hidden md:block absolute top-12 left-0 right-0 h-px bg-line z-0" />
 
             <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 relative z-10">
-              {lifecycleSteps.map((step, idx) => {
+              {lifecycleSteps.map((step) => {
                 const Icon = step.icon;
                 return (
                   <StaggerItem

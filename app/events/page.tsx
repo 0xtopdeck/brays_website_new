@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import {
   AnimatedSection,
   StaggerContainer,
@@ -12,7 +10,6 @@ import {
 import { CalendarDays, CheckCircle2, ClipboardCheck, Handshake, Sparkles } from "lucide-react";
 import { useLanguage } from "@/components/LanguageContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
 import clsx from "clsx";
 
 const HERO_IMG = "/images/Conference_TwoInOne_Speaker.png";
@@ -73,112 +70,40 @@ export default function EventsPage() {
         "Full Production Support",
       ];
 
-  // Hero intro: ASCII photo "materializes" → real photo → typed headline.
-  const [introDone, setIntroDone] = useState(false);
-  const [hideField, setHideField] = useState(false);
-  const [typed, setTyped] = useState(0);
-  const [doneTyping, setDoneTyping] = useState(false);
-
   const line1 = ar ? "تنظيم" : "Event";
   const line2 = ar ? "الفعاليات" : "Organizing";
-  const shown1 = doneTyping ? line1 : line1.slice(0, Math.min(typed, line1.length));
-  const shown2 = doneTyping ? line2 : typed > line1.length ? line2.slice(0, typed - line1.length) : "";
-  const caretOn1 = introDone && !doneTyping && typed <= line1.length;
-  const caretOn2 = introDone && !doneTyping && typed > line1.length;
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setIntroDone(true);
-      setHideField(true);
-      setTyped(999);
-      setDoneTyping(true);
-      return;
-    }
-    const t1 = setTimeout(() => setIntroDone(true), 3500);
-    const t2 = setTimeout(() => setHideField(true), 4500);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!introDone || doneTyping) return;
-    const len = line1.length + line2.length;
-    let i = 0;
-    const id = setInterval(() => {
-      i += 1;
-      setTyped(i);
-      if (i >= len) {
-        clearInterval(id);
-        setDoneTyping(true);
-      }
-    }, 55);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [introDone]);
 
   return (
     <div className="bg-background flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
       <section className="relative w-full h-[70vh] min-h-[500px] flex items-center overflow-hidden bg-[#06080b]">
-        {/* Real hero image - fades in once the intro completes */}
         <div className="absolute inset-0 z-0">
           <Image
             src={HERO_IMG}
             alt={ar ? "متحدث على منصة المؤتمر" : "Conference speaker on stage"}
             fill
             priority
-            className={clsx("object-cover object-center transition-opacity duration-1000", introDone ? "opacity-40" : "opacity-0")}
+            className="object-cover object-center opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {/* ASCII "materialize" intro, then fades to reveal the photo */}
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src={HERO_IMG} charset=" .:-=+*#%@" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-6 flex items-center gap-3"
-            >
+            <div className="mb-6 flex items-center gap-3">
               <CalendarDays className="w-6 h-6 text-accent" />
               <span className={clsx("text-accent font-serif italic tracking-wide", isRTL && "font-arabic")}>
                 {ar ? "المؤتمرات · القمم · فعاليات الشركات" : "Conferences · Summits · Corporate Events"}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{line1} {line2}</span>
-              <span aria-hidden="true">
-                {shown1}
-                {caretOn1 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-                <br />
-                <span className="text-accent">{shown2}</span>
-                {caretOn2 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              </span>
+              {line1}
+              <br />
+              <span className="text-accent">{line2}</span>
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8"
-            >
+            <div className="mt-8">
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance", isRTL && "text-start")}>
                 {ar
                   ? "نقدم تنفيذًا راقيًا للفعاليات وحلول إنتاج إبداعية تجمع بين الدقة والتميز البصري والتنسيق السلس للفعاليات المؤسسية والخاصة وفعاليات الجهات والمنظمات."
@@ -190,7 +115,7 @@ export default function EventsPage() {
               >
                 {t.common.requestAQuote}
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -267,7 +192,7 @@ export default function EventsPage() {
             </StaggerContainer>
           </div>
 
-          <AnimatedSection direction="up" delay={0.2} className="mt-14 bg-[#0a1822] text-white border border-white/10 rounded-sm p-7 md:p-9 flex flex-col md:flex-row gap-6 md:items-center">
+          <AnimatedSection direction="up" className="mt-14 bg-[#0a1822] text-white border border-white/10 rounded-sm p-7 md:p-9 flex flex-col md:flex-row gap-6 md:items-center">
             <div className="w-12 h-12 rounded-full bg-accent/15 text-accent flex items-center justify-center shrink-0">
               <Handshake className="w-6 h-6" />
             </div>

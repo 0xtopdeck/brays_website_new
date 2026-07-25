@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import clsx from "clsx";
 
@@ -12,14 +12,12 @@ interface AnimatedSectionProps {
   once?: boolean;
 }
 
-const luxuryTransition = {
+const quickTransition = {
   type: "spring",
-  mass: 1.2,
-  stiffness: 70,
-  damping: 24,
+  mass: 0.7,
+  stiffness: 180,
+  damping: 26,
 } as const;
-
-const luxuryEase = [0.22, 1, 0.36, 1]; // cubic-bezier(0.22, 1, 0.36, 1)
 
 export function AnimatedSection({
   children,
@@ -29,18 +27,21 @@ export function AnimatedSection({
   once = true,
 }: AnimatedSectionProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, margin: "-100px" });
+  const isInView = useInView(ref, { once, margin: "0px 0px -24px 0px" });
+  const shouldReduceMotion = useReducedMotion();
 
   const getInitialPosition = () => {
+    if (shouldReduceMotion) return { x: 0, y: 0, opacity: 1 };
+
     switch (direction) {
       case "up":
-        return { y: 60, opacity: 0 };
+        return { y: 24, opacity: 0 };
       case "down":
-        return { y: -60, opacity: 0 };
+        return { y: -24, opacity: 0 };
       case "left":
-        return { x: 60, opacity: 0 };
+        return { x: 24, opacity: 0 };
       case "right":
-        return { x: -60, opacity: 0 };
+        return { x: -24, opacity: 0 };
       case "none":
         return { opacity: 0 };
     }
@@ -53,7 +54,7 @@ export function AnimatedSection({
       ref={ref}
       initial={initial}
       animate={isInView ? { x: 0, y: 0, opacity: 1 } : initial}
-      transition={{ ...luxuryTransition, delay }}
+      transition={shouldReduceMotion ? { duration: 0 } : { ...quickTransition, delay }}
       className={clsx(className)}
     >
       {children}
@@ -64,8 +65,8 @@ export function AnimatedSection({
 export const StaggerContainer = ({
   children,
   className,
-  delayChildren = 0.2,
-  staggerChildren = 0.15,
+  delayChildren = 0,
+  staggerChildren = 0.06,
 }: {
   children: React.ReactNode;
   className?: string;
@@ -73,14 +74,15 @@ export const StaggerContainer = ({
   staggerChildren?: number;
 }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -24px 0px" });
+  const shouldReduceMotion = useReducedMotion();
 
   const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren,
-        delayChildren,
+        staggerChildren: shouldReduceMotion ? 0 : staggerChildren,
+        delayChildren: shouldReduceMotion ? 0 : delayChildren,
       },
     },
   };
@@ -107,16 +109,20 @@ export const StaggerItem = ({
   className?: string;
   direction?: "up" | "down" | "left" | "right" | "none";
 }) => {
+  const shouldReduceMotion = useReducedMotion();
+
   const getInitialPosition = () => {
+    if (shouldReduceMotion) return { x: 0, y: 0, opacity: 1 };
+
     switch (direction) {
       case "up":
-        return { y: 60, opacity: 0 };
+        return { y: 24, opacity: 0 };
       case "down":
-        return { y: -60, opacity: 0 };
+        return { y: -24, opacity: 0 };
       case "left":
-        return { x: 60, opacity: 0 };
+        return { x: 24, opacity: 0 };
       case "right":
-        return { x: -60, opacity: 0 };
+        return { x: -24, opacity: 0 };
       case "none":
         return { opacity: 0 };
     }
@@ -128,7 +134,7 @@ export const StaggerItem = ({
       x: 0,
       y: 0,
       opacity: 1,
-      transition: luxuryTransition,
+      transition: shouldReduceMotion ? { duration: 0 } : quickTransition,
     },
   };
 

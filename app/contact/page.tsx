@@ -8,7 +8,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/AnimatedSection";
-import { Mail, MapPin, Phone, MessageSquare } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { COMPANY } from "@/lib/siteData";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useLanguage } from "@/components/LanguageContext";
@@ -233,14 +233,13 @@ export default function ContactPage() {
                       className={clsx("w-full bg-surface-2 border border-line px-4 py-3 rounded-sm focus:outline-none focus:border-accent transition-colors text-foreground font-normal appearance-none", isRTL && "text-start pr-10")}
                     >
                       <option value="">{t.contact.form.selectDivision}</option>
-                      <option value="agriculture">{t.nav.agriculture}</option>
-                      <option value="construction">{t.nav.construction}</option>
-                      <option value="sulfur">{t.nav.sulfur}</option>
-                      <option value="food">{t.nav.food}</option>
-                      <option value="auto-parts">{t.nav.autoParts}</option>
-                      <option value="services">{t.nav.services}</option>
+                      <option value="tours">{t.nav.tours}</option>
                       <option value="events">{t.nav.events}</option>
-                      <option value="other">{t.common.explore}</option>
+                      <option value="facility-services">{t.nav.facilityServices}</option>
+                      <option value="uniforms">{t.nav.uniforms}</option>
+                      <option value="auto-parts">{t.nav.machineryAutoParts}</option>
+                      <option value="commodities">{t.nav.commodities}</option>
+                      <option value="other">{t.common.other}</option>
                     </select>
                   </div>
 

@@ -19,12 +19,16 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Sync from the class the no-flash script already applied to <html>.
   useEffect(() => {
-    const saved = localStorage.getItem("preferred-theme") as Theme | null;
-    if (saved === "light" || saved === "dark") {
-      setThemeState(saved);
-    } else {
-      setThemeState(document.documentElement.classList.contains("light") ? "light" : "dark");
-    }
+    const frame = window.requestAnimationFrame(() => {
+      const saved = localStorage.getItem("preferred-theme") as Theme | null;
+      if (saved === "light" || saved === "dark") {
+        setThemeState(saved);
+      } else {
+        setThemeState(document.documentElement.classList.contains("light") ? "light" : "dark");
+      }
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   useEffect(() => {

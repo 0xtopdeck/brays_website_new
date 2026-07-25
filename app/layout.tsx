@@ -32,9 +32,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://twoinone.llc"),
   title: "Two in One LLC",
   description:
-    "Agricultural wholesale, industrial construction, machinery, food wholesale, professional uniforms, and services - sourced, surveyed, and delivered with sovereign-grade precision.",
+    "Luxury tours, refined event production, and dependable facility services across Oman, delivered through disciplined execution and trusted partnerships.",
+  openGraph: {
+    title: "Two in One LLC",
+    description:
+      "Luxury tours, refined events, and dependable facility services across Oman.",
+    url: "/",
+    siteName: "Two in One LLC",
+    locale: "en_OM",
+    type: "website",
+    images: [
+      {
+        url: "/og-range-rover.png",
+        width: 1731,
+        height: 909,
+        alt: "Two in One LLC — Tours, Events, and Facility Services",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Two in One LLC",
+    description:
+      "Luxury tours, refined events, and dependable facility services across Oman.",
+    images: ["/og-range-rover.png"],
+  },
 };
 
 // Applies the saved theme before first paint to avoid a flash of the wrong theme.

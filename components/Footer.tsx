@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { COMPANY } from "@/lib/siteData";
+import { ACTIVITY_LINKS, COMPANY } from "@/lib/siteData";
 import { useLanguage } from "./LanguageContext";
 import EmblemMark from "./EmblemMark";
 import { translations } from "@/lib/translations";
@@ -116,56 +116,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Sectors */}
+          {/* Activities */}
           <div className="space-y-8">
             <h3 className="font-serif font-bold text-[10px] premium-tracking uppercase text-accent border-b border-accent/20 pb-4 inline-block">
-              {t.footer.sectors}
+              {t.footer.activities}
             </h3>
             <ul className="space-y-4 text-sm font-normal">
-              {COMPANY.divisions.map((div) => (
-                <li key={div.name}>
+              {ACTIVITY_LINKS.map((activity) => (
+                <li key={activity.key}>
                   <Link
-                    href={div.href}
+                    href={activity.href}
                     className="text-muted hover:text-accent transition-all hover:translate-x-1 inline-block uppercase text-xs font-bold tracking-widest"
                   >
-                    {lang === 'ar'
-                      ? (div.name === "Agriculture" ? "الزراعة" : div.name === "Industrial Construction" ? "الإنشاءات الصناعية" : "تجارة الكبريت")
-                      : div.name}
+                    {t.nav[activity.labelKey]}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/food"
-                  className="text-muted hover:text-accent transition-all hover:translate-x-1 inline-block uppercase text-xs font-bold tracking-widest"
-                >
-                  {lang === 'ar' ? "تجارة الغذاء" : "Food Wholesale"}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/auto-parts"
-                  className="text-muted hover:text-accent transition-all hover:translate-x-1 inline-block uppercase text-xs font-bold tracking-widest"
-                >
-                  {lang === 'ar' ? "قطع غيار الشاحنات" : "Truck Auto Parts"}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services"
-                  className="text-muted hover:text-accent transition-all hover:translate-x-1 inline-block uppercase text-xs font-bold tracking-widest"
-                >
-                  {lang === 'ar' ? "الخدمات والقدرات" : "Services & Capabilities"}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/events"
-                  className="text-muted hover:text-accent transition-all hover:translate-x-1 inline-block uppercase text-xs font-bold tracking-widest"
-                >
-                  {lang === 'ar' ? "تنظيم الفعاليات" : "Event Organizing"}
-                </Link>
-              </li>
               <li className="pt-4">
                 <Link
                   href="/contact"

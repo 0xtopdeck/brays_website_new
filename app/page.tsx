@@ -2,436 +2,542 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 import {
-  AnimatedSection,
-  StaggerContainer,
-  StaggerItem,
-} from "@/components/AnimatedSection";
-import { ArrowRight, Droplets, HardHat, Wheat } from "lucide-react";
-import { useLanguage } from "@/components/LanguageContext";
-import { translations } from "@/lib/translations";
-import Planet from "@/components/Planet";
+  ArrowRight,
+  Building2,
+  CalendarCheck,
+  CarFront,
+  Clock3,
+  Cog,
+  MapPinned,
+  PackageSearch,
+  ShieldCheck,
+  Shirt,
+  Sparkles,
+} from "lucide-react";
 import clsx from "clsx";
+import { AnimatedSection } from "@/components/AnimatedSection";
+import { useLanguage } from "@/components/LanguageContext";
+
+const fleet = [
+  { name: "Range Rover", price: "120 OMR" },
+  { name: "LX600", price: "100 OMR" },
+  { name: "Land Cruiser", price: "80 OMR" },
+];
 
 export default function Home() {
-  const constructionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: constructionRef,
-    offset: ["start end", "end start"],
-  });
-
   const { lang, isRTL } = useLanguage();
-  const t = translations[lang];
+  const ar = lang === "ar";
 
-  const steelY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-  const plywoodY = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+  const stories = [
+    {
+      key: "tours",
+      title: ar ? "الجولات والتنقل الفاخر" : "Tours & Luxury Mobility",
+      description: ar
+        ? "سيارات دفع رباعي بيضاء فاخرة، مع سائق أو بدون، لاجتماعات الأعمال والاستقبال من المطار والجولات الخاصة في عُمان."
+        : "White luxury SUVs, with or without a driver, for executive meetings, airport arrivals, and private journeys across Oman.",
+      image: "/images/tours-airport-arrival-branded.png",
+      href: "/tours",
+      label: ar ? "استكشف الجولات" : "Explore Tours",
+      icon: CarFront,
+      featured: true,
+    },
+    {
+      key: "events",
+      title: ar ? "الفعاليات والإنتاج" : "Events & Production",
+      description: ar
+        ? "تنفيذ متقن، وإنتاج إبداعي، وتنسيق سلس للفعاليات المؤسسية والخاصة."
+        : "Refined execution, creative production, and seamless coordination for corporate and private occasions.",
+      image: "/images/Conference_TwoInOne.png",
+      href: "/events",
+      label: ar ? "خطط لفعاليتك" : "Plan an Event",
+      icon: CalendarCheck,
+      featured: false,
+    },
+    {
+      key: "facilities",
+      title: ar ? "خدمات المرافق" : "Facility Services",
+      description: ar
+        ? "صيانة وإدارة مرافق وأنظمة ذكية ودعم تشغيلي بمعيار واحد واضح."
+        : "Maintenance, facility management, smart systems, and operational support under one clear standard.",
+      image: "/images/Facility_management.png",
+      href: "/services",
+      label: ar ? "خدمات المرافق" : "View Facility Services",
+      icon: Building2,
+      featured: false,
+    },
+  ];
 
-  // Hero load-in: bar + planet first, then the headline types and the
-  // eyebrow / subcopy / buttons reveal around it.
-  const [reveal, setReveal] = useState(false);
-  const [typed, setTyped] = useState(0);
-  const [doneTyping, setDoneTyping] = useState(false);
-
-  const line1 = lang === "ar" ? "نربط الخبرات والموارد والفرص" : "Connecting Expertise, Resources, and Opportunities";
-  const line2 = lang === "ar" ? "لنقدم حلولاً بلا حدود" : "Delivering Solutions Without Boundaries";
-  const shown1 = doneTyping ? line1 : line1.slice(0, Math.min(typed, line1.length));
-  const shown2 = doneTyping ? line2 : typed > line1.length ? line2.slice(0, typed - line1.length) : "";
-  const caretOn1 = reveal && !doneTyping && typed <= line1.length;
-  const caretOn2 = reveal && !doneTyping && typed > line1.length;
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setReveal(true);
-      setTyped(999);
-      setDoneTyping(true);
-      return;
-    }
-    const id = setTimeout(() => setReveal(true), 700);
-    return () => clearTimeout(id);
-  }, []);
-
-  useEffect(() => {
-    if (!reveal || doneTyping) return;
-    const len = line1.length + line2.length;
-    let i = 0;
-    const id = setInterval(() => {
-      i += 1;
-      setTyped(i);
-      if (i >= len) {
-        clearInterval(id);
-        setDoneTyping(true);
-      }
-    }, 48);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [reveal]);
-
-  const stats = [
-    { value: t.agriculture.stats.tonnageValue, label: t.agriculture.stats.tonnage },
-    { value: t.agriculture.stats.globalReachValue, label: t.agriculture.stats.globalReach },
-    { value: t.agriculture.stats.shipmentsValue, label: t.agriculture.stats.shipments },
+  const supporting = [
+    {
+      title: ar ? "الزي المهني" : "Professional Uniforms",
+      description: ar
+        ? "ملابس عمل وحماية مصنّعة حسب متطلبات القطاع."
+        : "Purpose-built workwear and protective clothing.",
+      href: "/uniforms",
+      icon: Shirt,
+    },
+    {
+      title: ar ? "الآلات وقطع الغيار" : "Machinery & Auto Parts",
+      description: ar
+        ? "توريد وتوزيع موثوق لاحتياجات التشغيل."
+        : "Reliable sourcing and distribution for operations.",
+      href: "/auto-parts",
+      icon: Cog,
+    },
+    {
+      title: ar ? "السلع والمواد" : "Commodities & Materials",
+      description: ar
+        ? "الغذاء والزراعة والصلب والكبريت في وجهة واحدة."
+        : "Food, agriculture, steel, and sulfur in one place.",
+      href: "/commodities",
+      icon: PackageSearch,
+    },
   ];
 
   return (
-    <>
-      {/* 1. HERO — The Planet */}
-      <section className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-background px-6 pt-28 pb-20">
-        {/* Rotating dot-grid planet with brand trajectory arcs */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="pointer-events-none absolute left-1/2 top-1/2 z-0 aspect-square w-[min(96vh,920px)] -translate-x-1/2 -translate-y-1/2"
-        >
-          <Planet className="absolute inset-0 h-full w-full" />
-        </motion.div>
-        {/* Seat the planet into the background */}
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_34%,var(--background)_82%)]" />
-
-        {/* Content */}
-        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            animate={reveal ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-7 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.35em] text-accent"
-          >
-            <span className="h-px w-8 bg-accent/50" />
-            {lang === "ar" ? "اثنين في واحد ش.م.م" : "Two in One LLC"}
-            <span className="h-px w-8 bg-accent/50" />
-          </motion.span>
-
-          <h1 className="font-serif text-4xl font-bold uppercase leading-[0.95] tracking-tighter text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
-            <span className="sr-only">{line1} {line2}</span>
-            <span aria-hidden="true">
-              {shown1}
-              {caretOn1 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              <br />
-              <span className="text-accent">{shown2}</span>
-              {caretOn2 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-            </span>
-          </h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mx-auto mt-8 max-w-xl text-balance text-base leading-relaxed text-muted md:text-lg"
-          >
-            {lang === "ar"
-              ? "تجارة الجملة الزراعية، والإنشاءات الصناعية، والمعدات، وتجارة الأغذية بالجملة، والزي المهني، والخدمات — توريد وفحص وتسليم بدقة سيادية."
-              : "Agricultural wholesale, industrial construction, machinery, food wholesale, professional uniforms, and services - sourced, surveyed, and delivered with sovereign-grade precision."}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-12 flex flex-col items-center gap-4 sm:flex-row"
-          >
-            <Link
-              href="/agriculture"
-              className="group inline-flex items-center gap-2 rounded-full bg-accent-2 px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-background shadow-premium transition-all hover:opacity-90"
-            >
-              <Wheat className="h-4 w-4" />
-              <span>{t.home.hero.exploreAgri}</span>
-              <ArrowRight className={clsx("h-4 w-4 transition-transform group-hover:translate-x-1", isRTL && "rotate-180")} />
-            </Link>
-            <Link
-              href="/construction"
-              className="group inline-flex items-center gap-2 rounded-full border border-accent/60 px-8 py-4 text-xs font-bold uppercase tracking-[0.2em] text-accent transition-all hover:bg-accent hover:text-background"
-            >
-              <HardHat className="h-4 w-4" />
-              <span>{t.home.hero.exploreConstruction}</span>
-              <ArrowRight className={clsx("h-4 w-4 transition-transform group-hover:translate-x-1", isRTL && "rotate-180")} />
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Scroll hint */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={doneTyping ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.6 }}
-          className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2"
-        >
-          <div className="h-12 w-[1px] bg-gradient-to-b from-transparent via-accent/40 to-transparent" />
-        </motion.div>
-      </section>
-
-      {/* 1b. GLOBAL TRADE — vessel intro band (bridges the planet to the divisions) */}
-      <section className="relative w-full min-h-[78vh] flex items-center overflow-hidden bg-[#06080b]">
-        <video
-          src="/images/hero_water.mp4"
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover opacity-50"
+    <main className="overflow-hidden bg-background">
+      <section className="relative min-h-[760px] bg-[#05080b] text-white lg:min-h-[820px]">
+        <Image
+          src="/images/tours-airport-arrival-branded.png"
+          alt={
+            ar
+              ? "خدمة استقبال فاخرة بسيارة دفع رباعي بيضاء في مسقط"
+              : "Luxury airport welcome beside a white SUV in Muscat"
+          }
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[62%_center] lg:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/85 to-[#06080b]/40 rtl:bg-gradient-to-l" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#06080b] via-transparent to-[#06080b]/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/22 rtl:bg-gradient-to-l" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/20" />
 
-        <div className="container relative z-10 mx-auto px-6 md:px-12">
-          <AnimatedSection direction="up" className={clsx("max-w-2xl", isRTL && "font-arabic text-start")}>
-            <span className="mb-6 inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.35em] text-accent">
-              <span className="h-px w-8 bg-accent/50" />
-              {lang === "ar" ? "بيت تجارة عالمي" : "A Global Trade House"}
-            </span>
-            <h2 className="font-serif text-4xl md:text-6xl font-bold uppercase tracking-tighter leading-[0.95] text-white">
-              {lang === "ar" ? (
-                <>عبر خطوط <br /> <span className="text-accent">الشحن العالمية.</span></>
-              ) : (
-                <>Across the world&apos;s <br /> <span className="text-accent">shipping lanes.</span></>
-              )}
-            </h2>
-            <p className="mt-8 max-w-xl text-base md:text-lg leading-relaxed text-white/70">
-              {lang === "ar"
-                ? "تجمع شركة اثنين في واحد ش.م.م بين تجارة الجملة الزراعية وتوريد مواد الإنشاءات الصناعية تحت معيار واحد — توريد وفحص وتسليم السلع والمواد بالجملة بحراً إلى العملاء حول العالم."
-                : "Two in One LLC unites agricultural wholesale and industrial construction supply under one standard — sourcing, surveying, and delivering bulk commodities and materials by sea to clients across the globe."}
-            </p>
-            <div className="mt-12 grid max-w-lg grid-cols-3 gap-6">
-              {stats.map((s) => (
-                <div key={s.label} className="border-l border-accent/40 pl-4 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-4">
-                  <div className="font-serif text-2xl md:text-3xl font-bold text-accent" style={{ direction: "ltr" }}>
-                    {s.value}
-                  </div>
-                  <div className="mt-1 text-[10px] uppercase tracking-[0.2em] text-white/50">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
+        <div className="container relative z-10 mx-auto flex min-h-[760px] items-center px-5 py-20 sm:px-8 lg:min-h-[820px] lg:px-12">
+          <div className={clsx("max-w-3xl", isRTL && "text-start")}>
+            <div className="mb-7 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
+              <span className="h-px w-8 bg-accent" />
+              {ar ? "اثنين في واحد ش.م.م · عُمان" : "Two in One LLC · Oman"}
             </div>
-          </AnimatedSection>
-        </div>
-      </section>
 
-      {/* 2. AGRI-WHOLESALE SECTION — orange division */}
-      <section id="agri" className="py-32 md:py-48 bg-background relative z-10 overflow-hidden">
-        {/* Diagonal two-tone + orange divider. The divider lands at 54% at the
-            section's bottom seam, where the Construction blue line meets it. */}
-        <div
-          className="pointer-events-none absolute inset-0 z-0 bg-foreground/[0.03]"
-          style={{ clipPath: "polygon(0 0, 44% 0, 54% 100%, 0 100%)" }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 z-0 bg-accent-2/70"
-          style={{ clipPath: "polygon(44% 0, calc(44% + 1.5px) 0, calc(54% + 1.5px) 100%, 54% 100%)" }}
-        />
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <AnimatedSection direction="up" className="mb-20 md:mb-32">
-            <h2 className={clsx("text-4xl md:text-6xl font-serif font-bold text-foreground uppercase tracking-tighter leading-none", isRTL && "text-start font-arabic")}>
-              {lang === 'ar' ? (
-                <>الزراعة <span className="text-accent-2 italic font-normal font-sans">العالمية.</span></>
-              ) : (
-                <>Global <span className="text-accent-2 italic font-normal">Agriculture.</span></>
+            <h1
+              className={clsx(
+                "max-w-3xl text-balance font-serif text-[clamp(2.35rem,5vw,4.9rem)] font-bold uppercase leading-[0.98] tracking-[-0.045em]",
+                isRTL && "font-arabic leading-[1.16]"
               )}
-            </h2>
-            <p className="text-muted max-w-2xl mt-8 text-lg md:text-xl font-normal leading-relaxed text-balance border-l border-accent-2 pl-8 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-8">
-              {t.home.agri.desc}
-            </p>
-          </AnimatedSection>
-
-          {/* Bento Grid */}
-          <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 auto-rows-[400px] md:auto-rows-[500px]">
-            {/* Grain Exports */}
-            <StaggerItem className="relative col-span-1 md:col-span-2 rounded-sm overflow-hidden group shadow-premium">
-              <Image
-                src="/images/harvesting_brays_hero_product.png"
-                alt="Grain Harvesting"
-                fill
-                className="object-cover object-center transition-transform duration-[2000ms] group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06080b]/95 via-[#06080b]/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-12 w-full">
-                <div className="glass-morphism inline-flex p-3 rounded-full mb-6">
-                  <Wheat className="text-accent-2 w-6 h-6" />
-                </div>
-                <h3 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
-                  {t.home.agri.grainExports.title}
-                </h3>
-                <p className="text-white/70 font-normal text-base max-w-md leading-relaxed">
-                  {t.home.agri.grainExports.desc}
-                </p>
-              </div>
-            </StaggerItem>
-
-            {/* Quality Testing (Text/Image Card) */}
-            <StaggerItem className="relative bg-[#06080b] text-white rounded-sm overflow-hidden group shadow-premium">
-              <Image
-                src="/images/grain_surveyor_quality.png"
-                alt="Grain Quality Testing"
-                fill
-                className="object-cover object-center transition-all duration-[2000ms] group-hover:scale-105 opacity-80 group-hover:opacity-100"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06080b]/95 via-[#06080b]/40 to-transparent" />
-              <div className="absolute inset-0 p-10 flex flex-col justify-end">
-                <div className="glass-morphism inline-flex p-3 rounded-full mb-auto self-start">
-                  <Droplets className="text-accent-2 w-6 h-6" />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-serif font-bold mb-4 z-10 text-white tracking-tight">
-                  {lang === 'ar' ? <>اختبارات <br /> الجودة</> : <>Surveyor <br /> Testing</>}
-                </h3>
-                <p className="text-white/70 font-normal text-sm z-10 leading-relaxed">
-                  {t.home.agri.surveyorTesting.desc}
-                </p>
-              </div>
-            </StaggerItem>
-
-            {/* Logistics (Image Card) */}
-            <StaggerItem className="relative col-span-1 md:col-span-3 rounded-sm overflow-hidden group h-[300px] md:h-auto">
-              <Image
-                src="/images/wheat_loading.png"
-                alt="Wheat Logistics"
-                fill
-                className="object-cover object-center transition-all duration-1000 group-hover:scale-105 opacity-90 group-hover:opacity-100"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06080b]/90 via-[#06080b]/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8 w-full">
-                <h3 className="text-2xl font-serif font-bold text-white mb-2">
-                  {t.home.agri.logistics.title}
-                </h3>
-                <p className="text-white/80 font-normal text-sm max-w-2xl">
-                  {t.home.agri.logistics.desc}
-                </p>
-              </div>
-            </StaggerItem>
-          </StaggerContainer>
-        </div>
-      </section>
-
-      {/* 3. INDUSTRIAL CONSTRUCTION SECTION — blue/teal division, cinematic dark band */}
-      <section
-        id="construction"
-        ref={constructionRef}
-        className="py-32 md:py-48 bg-[#06080b] text-white relative overflow-hidden"
-      >
-        {/* Diagonal two-tone + blue divider. Its top lands at 54% at the section's
-            top seam, meeting the Agriculture orange line at the same point. */}
-        <div
-          className="pointer-events-none absolute inset-0 z-0 bg-white/[0.03]"
-          style={{ clipPath: "polygon(54% 0, 100% 0, 100% 100%, 44% 100%)" }}
-        />
-        <div
-          className="pointer-events-none absolute inset-0 z-0 bg-accent/70"
-          style={{ clipPath: "polygon(54% 0, calc(54% + 1.5px) 0, calc(44% + 1.5px) 100%, 44% 100%)" }}
-        />
-
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <AnimatedSection direction="up" className="mb-20 md:mb-32 flex flex-col md:flex-row md:items-end justify-between gap-12">
-            <div className="max-w-3xl">
-              <h2 className="text-5xl md:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-none">
-                {lang === 'ar' ? (
-                  <>المواد <br /> <span className="text-accent italic font-normal font-sans">الصناعية.</span></>
-                ) : (
-                  <>Industrial <br /> <span className="text-accent italic font-normal">Materials.</span></>
-                )}
-              </h2>
-              <p className="text-white/60 mt-8 text-xl font-normal leading-relaxed text-balance border-l border-accent pl-8 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-8">
-                {t.home.construction.desc}
-              </p>
-            </div>
-            <Link
-              href="/construction"
-              className="inline-flex items-center space-x-4 text-accent hover:text-white transition-all font-bold tracking-[0.2em] uppercase border-2 border-accent/40 hover:border-white px-10 py-5 rounded-full backdrop-blur-sm hover:bg-accent shadow-premium group"
             >
-              <span>{t.common.viewDivision}</span>
-              <ArrowRight className={clsx("w-5 h-5 group-hover:translate-x-2 transition-transform", isRTL && "rotate-180")} />
-            </Link>
-          </AnimatedSection>
-
-          {/* Construction Grid with Parallax */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
-            {/* Left side text items */}
-            <StaggerContainer className="flex flex-col gap-24">
-              <Link href="/sulfur" className="flex flex-col gap-10 group/card">
-                <StaggerItem className="border-l-2 border-accent pl-8 rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-8">
-                  <span className="text-accent font-mono text-xs tracking-[0.3em] uppercase mb-4 block opacity-70 dir-ltr text-start" style={{ direction: 'ltr' }}>
-                    01
+              {ar ? (
+                <>
+                  نربط الخبرات والموارد والفرص
+                  <span className="mt-2 block text-accent">
+                    لنقدّم حلولاً بلا حدود
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight group-hover/card:text-accent transition-colors">
-                    {t.home.construction.sulfur.title}
-                  </h3>
-                  <p className="text-white/50 font-normal text-lg leading-relaxed max-w-md">
-                    {t.home.construction.sulfur.desc}
-                  </p>
-                </StaggerItem>
-                <StaggerItem className="relative h-64 md:h-80 overflow-hidden rounded-sm group shadow-premium">
-                  <Image
-                    src="/images/granular_sulfur.jpg"
-                    alt="Granular Sulfur"
-                    fill
-                    unoptimized
-                    className="object-cover object-center opacity-80 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-[#06080b]/40 group-hover:bg-transparent transition-colors duration-1000" />
-                  <div className="absolute inset-0 border border-white/5 pointer-events-none" />
-                </StaggerItem>
-              </Link>
-
-              <Link href="/construction" className="flex flex-col gap-10 group/card">
-                <StaggerItem className="border-l-2 border-white/10 pl-8 group-hover/card:border-white/30 transition-colors rtl:border-l-0 rtl:border-r rtl:pl-0 rtl:pr-8">
-                  <span className="text-white/30 font-mono text-xs tracking-[0.3em] uppercase mb-4 block dir-ltr text-start" style={{ direction: 'ltr' }}>
-                    02
+                </>
+              ) : (
+                <>
+                  Connecting Expertise, Resources, and Opportunities
+                  <span className="mt-2 block text-accent">
+                    Delivering Solutions Without Boundaries
                   </span>
-                  <h3 className="text-3xl md:text-4xl font-serif font-bold mb-4 tracking-tight text-white/90 group-hover/card:text-white transition-colors">
-                    {t.home.construction.plywood.title}
-                  </h3>
-                  <p className="text-white/40 font-normal text-lg leading-relaxed max-w-md">
-                    {t.home.construction.plywood.desc}
-                  </p>
-                </StaggerItem>
-                <StaggerItem className="relative h-64 md:h-80 overflow-hidden rounded-sm group shadow-premium">
-                  <motion.div
-                    style={{ y: plywoodY }}
-                    className="absolute inset-0 -top-[15%] -bottom-[15%]"
-                  >
-                    <Image
-                      src="/images/plywood_deck_construction_use.png"
-                      alt="Plywood Formwork"
-                      fill
-                      className="object-cover object-center opacity-80 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-[#06080b]/40 group-hover:bg-transparent transition-colors duration-1000" />
-                  </motion.div>
-                </StaggerItem>
-              </Link>
-            </StaggerContainer>
+                </>
+              )}
+            </h1>
 
-            {/* Right side steel parallax */}
-            <Link href="/construction" className="relative h-[700px] md:h-[900px] overflow-hidden ml-auto w-full md:w-11/12 rounded-sm block group/card shadow-premium border border-white/5">
-              <motion.div
-                style={{ y: steelY }}
-                className="absolute inset-0 -top-[20%] -bottom-[20%]"
+            <p className="mt-8 max-w-2xl text-balance text-base leading-7 text-white/76 sm:text-lg">
+              {ar
+                ? "من الاستقبال التنفيذي والرحلات الخاصة إلى الفعاليات الراقية ودعم المرافق الموثوق، ننسّق كل تفصيل بعناية."
+                : "From executive arrivals and private journeys to refined events and dependable facility support, we coordinate every detail with care."}
+            </p>
+
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/tours"
+                className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 text-xs font-bold uppercase tracking-[0.18em] text-[#061016] transition-colors hover:bg-white"
               >
-                <Image
-                  src="/images/steel_brays_hero_product.png"
-                  alt="Rising Structural Steel"
-                  fill
-                  className="object-cover object-center opacity-80 group-hover:opacity-100 transition-all duration-[2000ms] group-hover:scale-105"
+                {ar ? "استكشف الجولات" : "Explore Tours"}
+                <ArrowRight
+                  className={clsx(
+                    "h-4 w-4 transition-transform group-hover:translate-x-1",
+                    isRTL && "rotate-180 group-hover:-translate-x-1"
+                  )}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#06080b] via-transparent to-[#06080b]/30" />
-              </motion.div>
+              </Link>
+              <Link
+                href="/events"
+                className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/35 bg-black/15 px-7 text-xs font-bold uppercase tracking-[0.18em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-[#061016]"
+              >
+                {ar ? "خطط لفعالية" : "Plan an Event"}
+                <ArrowRight
+                  className={clsx(
+                    "h-4 w-4 transition-transform group-hover:translate-x-1",
+                    isRTL && "rotate-180 group-hover:-translate-x-1"
+                  )}
+                />
+              </Link>
+            </div>
+          </div>
+        </div>
 
-              <div className="absolute bottom-16 left-0 right-0 px-12">
-                <span className="text-accent font-mono text-xs tracking-[0.3em] uppercase mb-4 block dir-ltr text-start" style={{ direction: 'ltr' }}>
-                  03
-                </span>
-                <h3 className="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight tracking-tighter">
-                  {t.home.construction.steel.title}
-                </h3>
-                <p className="text-white/60 font-normal text-lg max-w-sm leading-relaxed">
-                  {t.home.construction.steel.desc}
-                </p>
-                <div className="mt-10 h-1 w-20 bg-accent/50 group-hover/card:w-40 transition-all duration-700" />
-              </div>
-            </Link>
+        <div className="absolute inset-x-0 bottom-0 z-10 border-t border-white/12 bg-black/35 backdrop-blur-md">
+          <div className="container mx-auto grid grid-cols-1 gap-px sm:grid-cols-3 sm:px-8 lg:px-12">
+            {[
+              {
+                icon: Clock3,
+                title: ar ? "9 صباحاً – 9 مساءً" : "9 AM – 9 PM",
+                text: ar ? "خدمة السائق" : "Driver service",
+              },
+              {
+                icon: ShieldCheck,
+                title: ar ? "تنسيق موثوق" : "Trusted coordination",
+                text: ar ? "من الحجز إلى الوصول" : "From booking to arrival",
+              },
+              {
+                icon: MapPinned,
+                title: ar ? "في جميع أنحاء عُمان" : "Across Oman",
+                text: ar ? "أعمال وجولات خاصة" : "Business and private tours",
+              },
+            ].map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="flex items-center gap-4 border-white/10 px-5 py-5 sm:border-r sm:last:border-r-0 rtl:sm:border-l rtl:sm:border-r-0 rtl:sm:last:border-l-0"
+                >
+                  <Icon className="h-5 w-5 shrink-0 text-accent" />
+                  <div>
+                    <div className="text-sm font-semibold text-white">
+                      {item.title}
+                    </div>
+                    <div className="mt-0.5 text-xs text-white/55">{item.text}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
-    </>
+
+      <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+        <div className="container mx-auto">
+          <AnimatedSection
+            direction="up"
+            className={clsx(
+              "mb-14 grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end",
+              isRTL && "text-start"
+            )}
+          >
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.28em] text-accent">
+                {ar ? "ما نقوم به اليوم" : "What we do today"}
+              </span>
+              <h2
+                className={clsx(
+                  "mt-5 text-balance text-4xl font-bold uppercase leading-[0.98] tracking-tight text-foreground md:text-6xl",
+                  isRTL && "font-arabic leading-[1.15]"
+                )}
+              >
+                {ar ? "خدمة مترابطة، من اللحظة الأولى." : "One connected service, from the first moment."}
+              </h2>
+            </div>
+            <p className="max-w-2xl text-base leading-7 text-muted md:text-lg">
+              {ar
+                ? "نركّز على ثلاث تجارب أساسية: تنقّل فاخر يليق بضيوفكم، فعاليات تُنفّذ بدقة، ومرافق تعمل بسلاسة كل يوم."
+                : "Our focus is now clear: distinguished mobility for your guests, events delivered with precision, and facilities that work seamlessly every day."}
+            </p>
+          </AnimatedSection>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {stories.map((story) => {
+              const Icon = story.icon;
+              return (
+                <AnimatedSection
+                  key={story.key}
+                  direction="up"
+                  className={clsx(
+                    "group relative min-h-[430px] overflow-hidden rounded-2xl bg-[#081017] shadow-premium",
+                    story.featured && "lg:row-span-2 lg:min-h-[886px]"
+                  )}
+                >
+                  <Link
+                    href={story.href}
+                    aria-label={story.label}
+                    className="absolute inset-0 z-20"
+                  />
+                  <Image
+                    src={story.image}
+                    alt={story.title}
+                    fill
+                    sizes={story.featured ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#05080b] via-[#05080b]/20 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 z-10 p-7 text-white md:p-10">
+                    <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/25 backdrop-blur-sm">
+                      <Icon className="h-5 w-5 text-accent" />
+                    </div>
+                    <h3 className="text-3xl font-bold md:text-4xl">{story.title}</h3>
+                    <p className="mt-4 max-w-xl text-sm leading-6 text-white/70 md:text-base">
+                      {story.description}
+                    </p>
+                    <div className="mt-7 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-accent">
+                      {story.label}
+                      <ArrowRight className={clsx("h-4 w-4", isRTL && "rotate-180")} />
+                    </div>
+                  </div>
+                </AnimatedSection>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+        <div className="container mx-auto grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <AnimatedSection
+            direction="left"
+            className="relative aspect-[16/10] overflow-hidden rounded-2xl"
+          >
+            <Image
+              src="/images/tours-white-fleet-branded.png"
+              alt={ar ? "أسطول من ثلاث سيارات دفع رباعي بيضاء فاخرة" : "Fleet of three white luxury SUVs"}
+              fill
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="object-cover"
+            />
+          </AnimatedSection>
+
+          <AnimatedSection direction="right" className={clsx(isRTL && "text-start")}>
+            <span className="text-xs font-bold uppercase tracking-[0.28em] text-accent">
+              {ar ? "تنقّل مصمم حولك" : "Mobility designed around you"}
+            </span>
+            <h2
+              className={clsx(
+                "mt-5 text-4xl font-bold uppercase leading-none tracking-tight text-foreground md:text-6xl",
+                isRTL && "font-arabic leading-[1.18]"
+              )}
+            >
+              {ar ? "عُمان، بطريقتك." : "Oman, your way."}
+            </h2>
+            <p className="mt-6 max-w-xl text-base leading-7 text-muted">
+              {ar
+                ? "اختر سيارتك البيضاء المفضلة، مع سائق محترف أو بدون سائق. مثالية للاجتماعات والتنقل اليومي والرحلات الخاصة."
+                : "Choose your preferred white SUV, with a professional driver or without. Ideal for meetings, daily movement, and private touring."}
+            </p>
+
+            <div className="mt-8 divide-y divide-line border-y border-line">
+              {fleet.map((vehicle) => (
+                <div
+                  key={vehicle.name}
+                  className="flex items-center justify-between gap-4 py-4"
+                >
+                  <span className="font-serif text-lg font-semibold text-foreground">
+                    {vehicle.name}
+                  </span>
+                  <span className="text-sm font-bold text-accent" dir="ltr">
+                    {vehicle.price}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <Link
+              href="/tours"
+              className="group mt-8 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-accent"
+            >
+              {ar ? "عرض السيارات والوجهات" : "See vehicles and destinations"}
+              <ArrowRight
+                className={clsx(
+                  "h-4 w-4 transition-transform group-hover:translate-x-1",
+                  isRTL && "rotate-180 group-hover:-translate-x-1"
+                )}
+              />
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="bg-[#06090d] px-5 py-24 text-white sm:px-8 md:py-32 lg:px-12">
+        <div className="container mx-auto grid gap-8 lg:grid-cols-2">
+          <AnimatedSection
+            direction="up"
+            className="relative min-h-[520px] overflow-hidden rounded-2xl"
+          >
+            <Image
+              src="/images/Conference_TwoInOne_Speaker.png"
+              alt={ar ? "فعالية مؤسسية بإنتاج متكامل" : "Corporate event with integrated production"}
+              fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
+          </AnimatedSection>
+
+          <AnimatedSection
+            direction="up"
+            className={clsx("flex flex-col justify-center lg:px-10", isRTL && "text-start")}
+          >
+            <Sparkles className="h-7 w-7 text-accent" />
+            <span className="mt-6 text-xs font-bold uppercase tracking-[0.28em] text-accent">
+              {ar ? "تجارب تُذكر" : "Experiences, precisely delivered"}
+            </span>
+            <h2
+              className={clsx(
+                "mt-5 text-balance text-4xl font-bold uppercase leading-none tracking-tight md:text-6xl",
+                isRTL && "font-arabic leading-[1.18]"
+              )}
+            >
+              {ar ? "من الفكرة إلى آخر ضيف." : "From concept to the final guest."}
+            </h2>
+            <p className="mt-7 max-w-xl text-base leading-7 text-white/65">
+              {ar
+                ? "نجمع بين التنسيق المنظّم والتفاصيل الجمالية والتكامل التقني لتقديم فعاليات مؤسسية وخاصة بمعيار مرتفع، بالتعاون مع شريكنا الموثوق في التنفيذ."
+                : "We combine structured coordination, aesthetic detail, and technical integration to deliver corporate and private events at an elevated standard, together with our trusted execution partner."}
+            </p>
+            <Link
+              href="/events"
+              className="group mt-9 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-accent"
+            >
+              {ar ? "خدمات الفعاليات" : "Discover Event Services"}
+              <ArrowRight
+                className={clsx(
+                  "h-4 w-4 transition-transform group-hover:translate-x-1",
+                  isRTL && "rotate-180 group-hover:-translate-x-1"
+                )}
+              />
+            </Link>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+        <div className="container mx-auto grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <AnimatedSection
+            direction="left"
+            className={clsx("lg:pr-8 rtl:lg:pl-8 rtl:lg:pr-0", isRTL && "text-start")}
+          >
+            <span className="text-xs font-bold uppercase tracking-[0.28em] text-accent">
+              {ar ? "أماكن تعمل بشكل أفضل" : "Places that work beautifully"}
+            </span>
+            <h2
+              className={clsx(
+                "mt-5 text-balance text-4xl font-bold uppercase leading-none tracking-tight text-foreground md:text-6xl",
+                isRTL && "font-arabic leading-[1.18]"
+              )}
+            >
+              {ar ? "خمسة مجالات. معيار واحد." : "Five capabilities. One standard."}
+            </h2>
+            <p className="mt-7 max-w-xl text-base leading-7 text-muted">
+              {ar
+                ? "من الصيانة والمرافق إلى الأنظمة الذكية والتوزيع، نوفّر دعماً عملياً واضحاً للمواقع والأصول والعمليات."
+                : "From maintenance and facility management to smart systems and distribution, we provide practical, accountable support for sites, assets, and operations."}
+            </p>
+            <Link
+              href="/services"
+              className="group mt-9 inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-accent"
+            >
+              {ar ? "استكشف خدمات المرافق" : "Explore Facility Services"}
+              <ArrowRight
+                className={clsx(
+                  "h-4 w-4 transition-transform group-hover:translate-x-1",
+                  isRTL && "rotate-180 group-hover:-translate-x-1"
+                )}
+              />
+            </Link>
+          </AnimatedSection>
+
+          <AnimatedSection
+            direction="right"
+            className="relative aspect-[16/11] overflow-hidden rounded-2xl"
+          >
+            <Image
+              src="/images/Facility_management.png"
+              alt={ar ? "خدمات إدارة المرافق في عُمان" : "Facility management services in Oman"}
+              fill
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className="object-cover"
+            />
+          </AnimatedSection>
+        </div>
+      </section>
+
+      <section className="border-y border-line bg-surface px-5 py-20 sm:px-8 lg:px-12">
+        <div className="container mx-auto">
+          <AnimatedSection
+            direction="up"
+            className={clsx(
+              "mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end",
+              isRTL && "text-start"
+            )}
+          >
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.28em] text-accent">
+                {ar ? "أنشطة داعمة" : "Supporting activities"}
+              </span>
+              <h2 className="mt-4 text-3xl font-bold uppercase tracking-tight text-foreground md:text-5xl">
+                {ar ? "عندما يتطلب العمل أكثر." : "When the work needs more."}
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-muted">
+              {ar
+                ? "تدعم مجالاتنا التجارية والتصنيعية احتياجات المشاريع عندما تتجاوز الخدمة الأساسية."
+                : "Our trading and manufacturing activities support projects when the requirement extends beyond the core service."}
+            </p>
+          </AnimatedSection>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {supporting.map((item) => {
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group rounded-2xl border border-line bg-background p-7 transition-colors hover:border-accent/50"
+                >
+                  <Icon className="h-6 w-6 text-accent" />
+                  <h3 className="mt-8 text-xl font-bold text-foreground">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-muted">{item.description}</p>
+                  <ArrowRight
+                    className={clsx(
+                      "mt-8 h-5 w-5 text-accent transition-transform group-hover:translate-x-1",
+                      isRTL && "rotate-180 group-hover:-translate-x-1"
+                    )}
+                  />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-24 sm:px-8 md:py-32 lg:px-12">
+        <AnimatedSection
+          direction="up"
+          className="container mx-auto overflow-hidden rounded-3xl bg-accent px-6 py-16 text-center text-[#041018] md:px-12 md:py-20"
+        >
+          <span className="text-xs font-bold uppercase tracking-[0.28em]">
+            {ar ? "ابدأ المحادثة" : "Start the conversation"}
+          </span>
+          <h2
+            className={clsx(
+              "mx-auto mt-5 max-w-4xl text-balance text-4xl font-bold uppercase leading-none tracking-tight md:text-6xl",
+              isRTL && "font-arabic leading-[1.18]"
+            )}
+          >
+            {ar ? "أخبرنا إلى أين تريد أن تصل." : "Tell us where you want to go."}
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#041018]/70">
+            {ar
+              ? "رحلة خاصة، فعالية مهمة، أو موقع يحتاج إلى دعم أفضل — سننسّق الخطوة التالية."
+              : "A private journey, an important event, or a site that needs better support—we will coordinate the next step."}
+          </p>
+          <Link
+            href="/contact"
+            className="mt-9 inline-flex min-h-12 items-center justify-center rounded-full bg-[#041018] px-8 text-xs font-bold uppercase tracking-[0.18em] text-white transition-transform hover:-translate-y-0.5"
+          >
+            {ar ? "تواصل معنا" : "Contact Two in One"}
+          </Link>
+        </AnimatedSection>
+      </section>
+    </main>
   );
 }

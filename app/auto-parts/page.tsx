@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import {
   AnimatedSection,
   StaggerContainer,
@@ -12,7 +10,6 @@ import {
 import { Truck, Plane, Ship, ShieldCheck, Wrench, Package } from "lucide-react";
 import { useLanguage } from "@/components/LanguageContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
 import clsx from "clsx";
 
 const HERO_IMG = "/images/auto-parts-hero.png";
@@ -88,50 +85,8 @@ export default function AutoPartsPage() {
     ? ["أصلي 100%", "أرقام قطع OEM", "شهادة ضمان", "AOG جاهز", "مطابق للـ VIN"]
     : ["100% Genuine", "OEM Part Numbers", "Warranty Certified", "AOG Ready", "VIN-Verified"];
 
-  const [introDone, setIntroDone] = useState(false);
-  const [hideField, setHideField] = useState(false);
-  const [typed, setTyped] = useState(0);
-  const [doneTyping, setDoneTyping] = useState(false);
-
   const line1 = ar ? "قطع" : "Auto";
   const line2 = ar ? "الغيار" : "Parts";
-  const shown1 = doneTyping ? line1 : line1.slice(0, Math.min(typed, line1.length));
-  const shown2 = doneTyping ? line2 : typed > line1.length ? line2.slice(0, typed - line1.length) : "";
-  const caretOn1 = introDone && !doneTyping && typed <= line1.length;
-  const caretOn2 = introDone && !doneTyping && typed > line1.length;
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setIntroDone(true);
-      setHideField(true);
-      setTyped(999);
-      setDoneTyping(true);
-      return;
-    }
-    const t1 = setTimeout(() => setIntroDone(true), 3500);
-    const t2 = setTimeout(() => setHideField(true), 4500);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!introDone || doneTyping) return;
-    const len = line1.length + line2.length;
-    let i = 0;
-    const id = setInterval(() => {
-      i += 1;
-      setTyped(i);
-      if (i >= len) {
-        clearInterval(id);
-        setDoneTyping(true);
-      }
-    }, 55);
-    return () => clearInterval(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [introDone]);
 
   return (
     <div className="bg-background flex flex-col min-h-screen">
@@ -143,54 +98,27 @@ export default function AutoPartsPage() {
             alt={ar ? "قطع غيار أصلية للشاحنات الثقيلة" : "Genuine heavy-truck spare parts"}
             fill
             priority
-            className={clsx("object-cover object-center transition-opacity duration-1000", introDone ? "opacity-50" : "opacity-0")}
+            className="object-cover object-center opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src={HERO_IMG} charset=" .:-=+*#%@" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-6 flex items-center gap-3"
-            >
+            <div className="mb-6 flex items-center gap-3">
               <Truck className="w-6 h-6 text-accent" />
               <span className={clsx("text-accent font-serif italic tracking-wide", isRTL && "font-arabic")}>
                 {ar ? "فولفو · مان · رينو · مرسيدس · هينو" : "Volvo · MAN · Renault · Mercedes · Hino"}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{line1} {line2}</span>
-              <span aria-hidden="true">
-                {shown1}
-                {caretOn1 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-                <br />
-                <span className="text-accent">{shown2}</span>
-                {caretOn2 && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              </span>
+              {line1}
+              <br />
+              <span className="text-accent">{line2}</span>
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8"
-            >
+            <div className="mt-8">
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance", isRTL && "text-start")}>
                 {ar
                   ? "قطع غيار أصلية 100% للشاحنات الثقيلة - فولفو، مان، رينو، مرسيدس، وهينو - عبر قنوات المصنّع المعتمدة. شحن جوي طارئ لطلبات AOG، وحاويات مدمجة عبر مراكزنا في هولندا والهند وكوريا الجنوبية ودبي."
@@ -202,7 +130,7 @@ export default function AutoPartsPage() {
               >
                 {t.common.requestAQuote}
               </Link>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -275,7 +203,7 @@ export default function AutoPartsPage() {
             ))}
           </StaggerContainer>
 
-          <AnimatedSection direction="up" delay={0.2} className="mt-16">
+          <AnimatedSection direction="up" className="mt-16">
             <div className={clsx("flex items-center gap-3 mb-6", isRTL && "flex-row-reverse justify-end")}>
               <ShieldCheck className="w-5 h-5 text-accent" />
               <span className={clsx("text-accent text-xs uppercase font-bold tracking-widest", isRTL && "font-arabic")}>
@@ -321,7 +249,7 @@ export default function AutoPartsPage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection direction="up" delay={0.1} className="bg-surface rounded-sm border border-line overflow-hidden group">
+            <AnimatedSection direction="up" className="bg-surface rounded-sm border border-line overflow-hidden group">
               <div className="relative w-full h-48 overflow-hidden">
                 <Image
                   src="/images/auto-parts-containers.png"
@@ -342,7 +270,7 @@ export default function AutoPartsPage() {
               </div>
             </AnimatedSection>
 
-            <AnimatedSection direction="up" delay={0.2} className="bg-surface rounded-sm border border-line overflow-hidden group">
+            <AnimatedSection direction="up" className="bg-surface rounded-sm border border-line overflow-hidden group">
               <div className="relative w-full h-48 overflow-hidden">
                 <Image
                   src="/images/auto-parts-warehouse.png"
