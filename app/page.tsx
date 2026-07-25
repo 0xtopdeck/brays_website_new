@@ -113,7 +113,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/22 rtl:bg-gradient-to-l" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/20" />
 
-        <div className="container relative z-10 mx-auto flex min-h-[760px] items-center px-5 py-20 sm:px-8 lg:min-h-[820px] lg:px-12">
+        <div className="container relative z-10 mx-auto flex min-h-[760px] items-center px-5 pb-36 pt-20 sm:px-8 lg:min-h-[820px] lg:px-12 lg:pb-40">
           <div className={clsx("max-w-3xl", isRTL && "text-start")}>
             <div className="mb-7 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.3em] text-accent">
               <span className="h-px w-8 bg-accent" />
