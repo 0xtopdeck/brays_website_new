@@ -2,15 +2,12 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { AnimatedSection } from "@/components/AnimatedSection";
 import { Users, Briefcase, MapPin, Globe, CheckCircle2 } from "lucide-react";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { useLanguage } from "@/components/LanguageContext";
 import { useTheme } from "@/components/ThemeContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
-import { useHeroIntro } from "@/components/useHeroIntro";
 import clsx from "clsx";
 
 export default function CareersPage() {
@@ -24,9 +21,6 @@ export default function CareersPage() {
   const [fileError, setFileError] = useState("");
 
   const heroTitle = t.careers.hero.title;
-  const { introDone, hideField, typed, doneTyping } = useHeroIntro(heroTitle.length);
-  const shownTitle = doneTyping ? heroTitle : heroTitle.slice(0, typed);
-  const caret = introDone && !doneTyping;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -85,62 +79,35 @@ export default function CareersPage() {
     <div className="bg-background flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
       <section className="relative w-full h-[50vh] min-h-[400px] flex items-center overflow-hidden bg-[#06080b]">
-        {/* Real hero image — fades in once the intro completes (desktop, as before) */}
-        <div className="absolute inset-0 z-0 hidden md:block">
+        <div className="absolute inset-0 z-0">
           <Image
             src="/images/careers_hero.png"
             alt="Careers Hero"
             fill
             priority
-            className={clsx("object-cover object-[65%_center] md:object-center transition-opacity duration-1000", introDone ? "opacity-40 hover:opacity-60" : "opacity-0")}
+            className="object-cover object-[65%_center] md:object-center opacity-40 hover:opacity-60 transition-opacity duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {/* ASCII "materialize" intro */}
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src="/images/careers_hero.png" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={introDone ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-6 flex items-center gap-3"
-            >
+            <div className="mb-6 flex items-center gap-3">
               <Users className="w-6 h-6 text-accent" />
               <span className="text-accent font-serif italic tracking-wide">
                 {t.careers.hero.join}
               </span>
-            </motion.div>
+            </div>
 
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{heroTitle}</span>
-              <span aria-hidden="true">
-                {shownTitle}
-                {caret && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              </span>
+              {heroTitle}
             </h1>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <div>
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance mt-6", isRTL && "text-start")}>
                 {t.careers.hero.desc}
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -161,7 +128,7 @@ export default function CareersPage() {
                 <div className="w-16 h-px bg-accent mb-12" />
               </AnimatedSection>
 
-              <AnimatedSection direction="up" delay={0.1} className="bg-surface border border-line p-8 md:p-10 rounded-sm shadow-xl shadow-forest/5 hover:border-accent/50 transition-colors group">
+              <AnimatedSection direction="up" className="bg-surface border border-line p-8 md:p-10 rounded-sm shadow-xl shadow-forest/5 hover:border-accent/50 transition-colors group">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                   <h3 className={clsx("text-2xl font-serif font-bold text-foreground group-hover:text-accent transition-colors", isRTL && "text-start font-arabic")}>
                     {t.careers.openings.iccLawyer}
@@ -193,7 +160,7 @@ export default function CareersPage() {
             </div>
 
             {/* General Submission */}
-            <AnimatedSection direction="up" delay={0.2} className={clsx("bg-surface text-foreground p-10 rounded-sm relative overflow-hidden", isRTL ? "border-r-4 border-accent" : "border-l-4 border-accent")}>
+            <AnimatedSection direction="up" className={clsx("bg-surface text-foreground p-10 rounded-sm relative overflow-hidden", isRTL ? "border-r-4 border-accent" : "border-l-4 border-accent")}>
               <Users className={clsx("absolute -bottom-8 w-48 h-48 text-foreground/5 pointer-events-none", isRTL ? "-left-8" : "-right-8")} />
               <h3 className={clsx("text-2xl font-serif font-bold mb-4 relative z-10", isRTL && "text-start font-arabic")}>
                 {t.careers.general.title}
@@ -208,7 +175,7 @@ export default function CareersPage() {
           {/* Right: Application Form */}
           <div className="lg:col-span-5 relative">
             <div className="sticky top-32">
-              <AnimatedSection direction={isRTL ? "right" : "left"} delay={0.3} className="bg-surface p-8 md:p-10 border border-line rounded-sm shadow-xl shadow-forest/5">
+              <AnimatedSection direction={isRTL ? "right" : "left"} className="bg-surface p-8 md:p-10 border border-line rounded-sm shadow-xl shadow-forest/5">
                 <h3 className={clsx("font-serif font-bold text-2xl text-foreground mb-6", isRTL && "text-start font-arabic")}>{t.careers.form.title}</h3>
 
                 {submitted ? (

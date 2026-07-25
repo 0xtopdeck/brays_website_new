@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import {
   AnimatedSection,
   StaggerContainer,
@@ -14,8 +13,6 @@ import { Turnstile } from "@marsidev/react-turnstile";
 import { useLanguage } from "@/components/LanguageContext";
 import { useTheme } from "@/components/ThemeContext";
 import { translations } from "@/lib/translations";
-import AsciiRevealCanvas from "@/components/AsciiRevealCanvas";
-import { useHeroIntro } from "@/components/useHeroIntro";
 import clsx from "clsx";
 
 export default function ContactPage() {
@@ -28,9 +25,6 @@ export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
 
   const heroTitle = t.contact.hero.title;
-  const { introDone, hideField, typed, doneTyping } = useHeroIntro(heroTitle.length);
-  const shownTitle = doneTyping ? heroTitle : heroTitle.slice(0, typed);
-  const caret = introDone && !doneTyping;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -71,49 +65,27 @@ export default function ContactPage() {
     <div className="bg-background flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
       <section className="relative w-full h-[50vh] min-h-[400px] flex items-center overflow-hidden bg-[#06080b]">
-        {/* Real hero image — fades in once the intro completes */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/contact_us_hero.png"
             alt="Bulker ship representing global reach"
             fill
             priority
-            className={clsx("object-cover object-center transition-opacity duration-1000", introDone ? "opacity-40 hover:opacity-60" : "opacity-0")}
+            className="object-cover object-center opacity-40 hover:opacity-60 transition-opacity duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
         </div>
 
-        {/* ASCII "materialize" intro */}
-        {!hideField && (
-          <motion.div
-            className="absolute inset-0 z-[1]"
-            initial={{ opacity: 1 }}
-            animate={{ opacity: introDone ? 0 : 1 }}
-            transition={{ duration: 0.9, ease: "easeInOut" }}
-          >
-            <AsciiRevealCanvas src="/images/contact_us_hero.png" className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/40 to-transparent" />
-          </motion.div>
-        )}
-
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
             <h1 className={clsx("text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white uppercase tracking-tighter leading-[0.85]", isRTL && "font-arabic")}>
-              <span className="sr-only">{heroTitle}</span>
-              <span aria-hidden="true">
-                {shownTitle}
-                {caret && <span className="animate-caret font-sans font-normal text-accent">|</span>}
-              </span>
+              {heroTitle}
             </h1>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={doneTyping ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
+            <div>
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance mt-6", isRTL && "text-start")}>
                 {t.contact.hero.desc}
               </p>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
@@ -186,7 +158,7 @@ export default function ContactPage() {
             </div>
 
             {/* Contact Form */}
-            <AnimatedSection direction="up" delay={0.2} className="bg-surface p-8 md:p-12 border border-line rounded-sm shadow-xl shadow-line h-fit">
+            <AnimatedSection direction="up" className="bg-surface p-8 md:p-12 border border-line rounded-sm shadow-xl shadow-line h-fit">
               <h3 className={clsx("font-serif font-bold text-2xl text-foreground mb-6", isRTL && "text-start font-arabic")}>{t.contact.form.title}</h3>
               
               {submitted ? (
