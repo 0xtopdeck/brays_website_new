@@ -298,7 +298,7 @@ export default function Home() {
             className="relative aspect-[16/10] overflow-hidden rounded-2xl"
           >
             <Image
-              src="/images/tours-white-fleet-branded.png"
+              src="/images/tours-white-fleet-fully-branded.png"
               alt={ar ? "أسطول من ثلاث سيارات دفع رباعي بيضاء فاخرة" : "Fleet of three white luxury SUVs"}
               fill
               sizes="(min-width: 1024px) 55vw, 100vw"

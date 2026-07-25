@@ -382,7 +382,7 @@ export default function ToursPage() {
 
           <div className="relative mt-12 aspect-[16/10] overflow-hidden rounded-[1.75rem] border border-line bg-background shadow-premium sm:aspect-[16/8]">
             <Image
-                src="/images/tours-white-fleet-branded.png"
+              src="/images/tours-white-fleet-fully-branded.png"
               alt={c.fleetAlt}
               fill
               sizes="(max-width: 768px) 100vw, 92vw"
