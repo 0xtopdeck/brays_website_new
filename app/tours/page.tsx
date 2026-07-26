@@ -23,9 +23,9 @@ import { useLanguage } from "@/components/LanguageContext";
 const copy = {
   en: {
     eyebrow: "Private mobility · Sultanate of Oman",
-    title: "Luxury car at your door step.",
+    title: "Experience Oman in Ultimate Luxury.",
     intro:
-      "Executive arrivals, considered business travel, and private journeys through Oman in a current fleet of white luxury SUVs.",
+      "Travel in world-class SUVs with professional chauffeur services or self-drive options, tailored to your lifestyle.",
     exploreFleet: "View the fleet",
     planJourney: "Plan your journey",
     facts: [
@@ -52,9 +52,9 @@ const copy = {
       },
     ],
     fleetEyebrow: "The white fleet",
-    fleetTitle: "Three icons. One calm standard.",
+    fleetTitle: "Choose Your Luxury. We’ll Handle the Journey.",
     fleetBody:
-      "The newest white Range Rover, Lexus LX 600, and Toyota Land Cruiser are available for business travel, private occasions, and destination tours.",
+      "Vehicle availability and final journey details are confirmed when you book.",
     fleetAlt:
       "White Range Rover, Lexus LX 600, and Toyota Land Cruiser arranged outside an Omani luxury property",
     fleet: [
@@ -79,7 +79,23 @@ const copy = {
     ],
     rateLabel: "Listed rate",
     bookingNote:
-      "Choose a vehicle with or without a driver. Driver service operates daily from 9:00 AM to 9:00 PM. Vehicle availability and final journey details are confirmed when you book.",
+      "Choose a vehicle with or without a driver. Driver service operates daily from 9:00 AM to 9:00 PM.",
+    bidiyah: {
+      eyebrow: "Featured desert stay",
+      title: "Bidiyah Desert Escape",
+      body:
+        "Journey into Bidiyah’s golden dunes, settle into a modern panoramic tent with a king-size bed, and end the evening beneath Oman’s clear desert sky.",
+      highlights: [
+        "Private journey into Bidiyah’s dunes",
+        "Modern panoramic dome tent",
+        "King-size bed and refined interior",
+        "Night-sky stargazing from your deck",
+      ],
+      cta: "Plan the desert stay",
+      nightAlt: "A warm modern desert tent beneath the star-filled night sky in Bidiyah, Oman",
+      campAlt: "A modern panoramic dome tent among the golden dunes of Bidiyah, Oman",
+      interiorAlt: "Modern desert tent interior with a king-size bed and panoramic dune views",
+    },
     destinationsEyebrow: "Private tours across Oman",
     destinationsTitle: "A different horizon for every day.",
     destinationsBody:
@@ -128,9 +144,9 @@ const copy = {
   },
   ar: {
     eyebrow: "تنقّل خاص · سلطنة عُمان",
-    title: "سيارة فاخرة عند بابك.",
+    title: "استكشف عُمان بأقصى درجات الفخامة.",
     intro:
-      "استقبال تنفيذي، وتنقّل مدروس للأعمال، ورحلات خاصة داخل عُمان ضمن أسطول حديث من سيارات الدفع الرباعي الفاخرة باللون الأبيض.",
+      "استمتع بتجربة تنقّل راقية مع سيارات الدفع الرباعي الفاخرة، مع سائق محترف أو بخيار القيادة الذاتية، بما يلائم أسلوب حياتك واحتياجاتك.",
     exploreFleet: "استعرض الأسطول",
     planJourney: "خطط لرحلتك",
     facts: [
@@ -157,9 +173,9 @@ const copy = {
       },
     ],
     fleetEyebrow: "الأسطول الأبيض",
-    fleetTitle: "ثلاث أيقونات. معيار هادئ واحد.",
+    fleetTitle: "اختر مستوى الفخامة الذي يليق بك… ودع الباقي علينا",
     fleetBody:
-      "أحدث رينج روفر ولكزس LX 600 وتويوتا لاند كروزر باللون الأبيض متاحة لتنقلات الأعمال والمناسبات الخاصة والجولات السياحية.",
+      "يتم تأكيد توفر السيارة والتفاصيل النهائية للرحلة عند الحجز.",
     fleetAlt:
       "رينج روفر ولكزس LX 600 وتويوتا لاند كروزر باللون الأبيض أمام مبنى فاخر بطابع عُماني",
     fleet: [
@@ -184,7 +200,23 @@ const copy = {
     ],
     rateLabel: "السعر المدرج",
     bookingNote:
-      "اختر السيارة مع سائق أو بدونه. تتوفر خدمة السائق يومياً من 9:00 صباحاً إلى 9:00 مساءً. يتم تأكيد توفر السيارة والتفاصيل النهائية للرحلة عند الحجز.",
+      "اختر السيارة مع سائق أو بدونه. تتوفر خدمة السائق يومياً من 9:00 صباحاً إلى 9:00 مساءً.",
+    bidiyah: {
+      eyebrow: "إقامة صحراوية مميزة",
+      title: "رحلة بدية الصحراوية",
+      body:
+        "انطلق في رحلة خاصة إلى كثبان بدية الذهبية، وأقم في خيمة بانورامية عصرية بنوافذ واسعة وسرير كينغ، واختتم يومك تحت سماء الصحراء المرصعة بالنجوم.",
+      highlights: [
+        "رحلة خاصة إلى كثبان بدية",
+        "خيمة بانورامية عصرية",
+        "سرير كينغ وتصميم داخلي راقٍ",
+        "تأمل النجوم من شرفتك الخاصة",
+      ],
+      cta: "خطط لإقامتك الصحراوية",
+      nightAlt: "خيمة عصرية مضاءة تحت سماء بدية المرصعة بالنجوم في سلطنة عُمان",
+      campAlt: "خيمة قبة بانورامية عصرية بين كثبان بدية الذهبية",
+      interiorAlt: "تصميم داخلي عصري لخيمة صحراوية مع سرير كينغ ونوافذ بانورامية",
+    },
     destinationsEyebrow: "جولات خاصة في أنحاء عُمان",
     destinationsTitle: "أفق مختلف لكل يوم.",
     destinationsBody:
@@ -449,6 +481,73 @@ export default function ToursPage() {
               {c.destinationsBody}
             </p>
           </div>
+
+          <article className="mt-14 overflow-hidden rounded-[2rem] border border-line bg-surface shadow-premium">
+            <div className="relative min-h-[390px] overflow-hidden sm:min-h-[500px] lg:min-h-[560px]">
+              <Image
+                src="/images/tours-bidiyah-night.png"
+                alt={c.bidiyah.nightAlt}
+                fill
+                loading="eager"
+                sizes="(max-width: 768px) 100vw, 92vw"
+                className="object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-black/10" />
+              <div className="absolute inset-x-0 bottom-0 p-6 text-white sm:p-10 lg:p-12">
+                <div className={clsx("flex items-center gap-3", isRTL && "flex-row-reverse justify-end")}>
+                  <Sparkles className="h-5 w-5 text-accent" aria-hidden="true" />
+                  <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-accent sm:text-xs">
+                    {c.bidiyah.eyebrow}
+                  </span>
+                </div>
+                <h3 className="mt-4 max-w-3xl text-balance font-serif text-4xl font-bold leading-none tracking-tight sm:text-5xl lg:text-6xl">
+                  {c.bidiyah.title}
+                </h3>
+              </div>
+            </div>
+
+            <div className="grid lg:grid-cols-[0.82fr_1.18fr]">
+              <div className="flex flex-col justify-center p-6 sm:p-9 lg:p-12">
+                <p className="text-base leading-8 text-muted sm:text-lg">{c.bidiyah.body}</p>
+                <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                  {c.bidiyah.highlights.map((highlight) => (
+                    <li key={highlight} className="flex items-start gap-3 text-sm leading-6 text-foreground/85">
+                      <Check className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                      <span>{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/contact"
+                  className="mt-9 inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full bg-accent px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-background transition-colors hover:bg-foreground hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+                >
+                  {c.bidiyah.cta}
+                  <ArrowRight className={clsx("h-4 w-4", isRTL && "rotate-180")} aria-hidden="true" />
+                </Link>
+              </div>
+
+              <div className="grid gap-px border-t border-line bg-line sm:grid-cols-2 lg:border-l lg:border-t-0 rtl:lg:border-l-0 rtl:lg:border-r">
+                <div className="relative aspect-[4/3] overflow-hidden bg-background">
+                  <Image
+                    src="/images/tours-bidiyah-camp.png"
+                    alt={c.bidiyah.campAlt}
+                    fill
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 30vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="relative aspect-[4/3] overflow-hidden bg-background">
+                  <Image
+                    src="/images/tours-bidiyah-interior.png"
+                    alt={c.bidiyah.interiorAlt}
+                    fill
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 30vw"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </article>
 
           <div className="mt-12 grid gap-5 md:grid-cols-2">
             {c.destinations.map((destination, index) => {

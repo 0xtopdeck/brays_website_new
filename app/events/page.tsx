@@ -51,13 +51,13 @@ export default function EventsPage() {
   const productionCapabilities = ar
     ? [
         "تنفيذ وتجهيز الفعاليات",
-        "حلول المسارح والهياكل المعدنية",
-        "تنسيق الصوت والإضاءة",
-        "ديكور مواقع الفعاليات",
-        "تنسيق الفعالية ودعم المفهوم الإبداعي",
+        "حلول المسارح والهياكل (Truss)",
+        "تنسيق أنظمة الصوت والإضاءة",
+        "تصميم وتزيين مواقع الفعاليات",
+        "تصميم الهوية البصرية والمفهوم الإبداعي للفعالية",
         "تجهيز المعارض والأجنحة",
-        "عناصر الهوية والعرض البصري",
-        "دعم الإنتاج الكامل",
+        "العلامات التجارية والعناصر البصرية",
+        "الدعم الشامل للإنتاج والتنفيذ",
       ]
     : [
         "Event Execution & Setup",
@@ -106,7 +106,7 @@ export default function EventsPage() {
             <div className="mt-8">
               <p className={clsx("text-white/80 text-base md:text-lg font-normal leading-relaxed max-w-xl text-balance", isRTL && "text-start")}>
                 {ar
-                  ? "نقدم تنفيذًا راقيًا للفعاليات وحلول إنتاج إبداعية تجمع بين الدقة والتميز البصري والتنسيق السلس للفعاليات المؤسسية والخاصة وفعاليات الجهات والمنظمات."
+                  ? "نقدّم خدمات احترافية في تنفيذ وتنظيم الفعاليات وإنتاجها الإبداعي، مع الجمع بين الدقة، والتميّز البصري، والتنسيق المتكامل لضمان نجاح الفعاليات المؤسسية والخاصة وفعاليات الجهات الحكومية والمنظمات."
                   : "We deliver refined event execution and creative production solutions, combining precision, visual excellence, and seamless coordination across corporate, private, and organization-led events."}
               </p>
               <Link
@@ -165,15 +165,15 @@ export default function EventsPage() {
               <div className={clsx("flex items-center gap-3 mb-6", isRTL && "flex-row-reverse justify-end")}>
                 <Sparkles className="w-6 h-6 text-accent" />
                 <span className={clsx("text-accent text-xs uppercase font-bold tracking-widest", isRTL && "font-arabic")}>
-                  {ar ? "التنفيذ والإنتاج" : "Execution & Production"}
+                  {ar ? "خدماتنا" : "Execution & Production"}
                 </span>
               </div>
               <h2 className={clsx("text-3xl md:text-5xl font-serif font-bold text-foreground uppercase tracking-tighter mb-7", isRTL && "font-arabic text-start")}>
-                {ar ? <>تجارب مصممة <span className="text-accent italic font-normal font-sans">لتترك أثرًا.</span></> : <>Experiences Crafted <span className="text-accent italic font-normal">to Leave an Impression.</span></>}
+                {ar ? <>تجارب مصممة بعناية <span className="text-accent italic font-normal font-sans">لتترك انطباعًا لا يُنسى.</span></> : <>Experiences Crafted <span className="text-accent italic font-normal">to Leave an Impression.</span></>}
               </h2>
               <p className={clsx("text-muted leading-relaxed text-base md:text-lg text-balance", isRTL && "text-start")}>
                 {ar
-                  ? "نمتلك خبرة في الفعاليات المؤسسية والخاصة وفعاليات الجهات والمنظمات، ونتعامل مع كل مشروع من خلال موازنة دقيقة بين التفاصيل الجمالية والتكامل التقني والتنفيذ المنظم. نلتزم بتقديم تجربة متقنة بمعايير رفيعة وتنسيق مدروس يضمن سلاسة كل مرحلة ويترك انطباعًا دائمًا."
+                  ? "بخبرةٍ راسخة في تنفيذ الفعاليات المؤسسية والخاصة وفعاليات الجهات الحكومية والمؤسسات، نتعامل مع كل مشروع بمنهجية تجمع بين الإبداع، والدقة التقنية، والتنفيذ الاحترافي. نركز على تقديم فعاليات متقنة بمعايير عالية وتجارب مصممة بعناية لتترك أثرًا يدوم."
                   : "With proven experience across corporate, private, and organization-led events, we approach every project through a considered balance of aesthetic detail, technical integration, and structured execution. Our focus is flawless delivery, elevated standards, and thoughtfully crafted experiences that leave a lasting impression."}
               </p>
             </AnimatedSection>
@@ -198,11 +198,11 @@ export default function EventsPage() {
             </div>
             <div>
               <h3 className={clsx("text-xl md:text-2xl font-serif font-bold mb-2", isRTL && "font-arabic text-start")}>
-                {ar ? "التنفيذ بالتعاون مع شريك موثوق ومتخصص." : "Executed with a trusted specialist partner."}
+                {ar ? "يُنفَّذ بالتعاون مع شريك متخصص وموثوق" : "Executed with a trusted specialist partner."}
               </h3>
               <p className={clsx("text-white/65 text-sm md:text-base leading-relaxed max-w-4xl", isRTL && "text-start")}>
                 {ar
-                  ? "تدير شركة اثنين في واحد متطلبات الفعالية والتنسيق التجاري والإشراف على المشروع، بينما يتم تنفيذ أعمال التنظيم والإنتاج الفني بالتعاون مع شريك موثوق ومتخصص في تجهيز الفعاليات."
+                  ? "تتولى شركة اثنين في واحد إدارة متطلبات الفعالية، والتنسيق التجاري، والإشراف الكامل على المشروع، بينما يتم تنفيذ أعمال التنظيم والإنتاج الفني بالتعاون مع شريك متخصص يمتلك خبرة واسعة في تجهيز وتنفيذ الفعاليات، لضمان أعلى مستويات الجودة والاحترافية"
                   : "Two in One manages the event brief, commercial coordination, and project oversight, while event organization and technical production are delivered with a trusted specialist partner experienced in event setup and execution."}
               </p>
             </div>

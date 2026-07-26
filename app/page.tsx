@@ -34,8 +34,8 @@ export default function Home() {
       key: "tours",
       title: ar ? "الجولات والتنقل الفاخر" : "Tours & Luxury Mobility",
       description: ar
-        ? "سيارات دفع رباعي بيضاء فاخرة، مع سائق أو بدون، لاجتماعات الأعمال والاستقبال من المطار والجولات الخاصة في عُمان."
-        : "White luxury SUVs, with or without a driver, for executive meetings, airport arrivals, and private journeys across Oman.",
+        ? "نحن على أعتاب بابكم لخدمتكم."
+        : "We are here to serve you, wherever you are.",
       image: "/images/tours-airport-arrival-branded.png",
       href: "/tours",
       label: ar ? "استكشف الجولات" : "Explore Tours",
@@ -122,7 +122,7 @@ export default function Home() {
 
             <h1
               className={clsx(
-                "max-w-3xl text-balance font-serif text-[clamp(2.35rem,5vw,4.9rem)] font-bold uppercase leading-[0.98] tracking-[-0.045em]",
+                "max-w-3xl text-balance font-serif text-[clamp(1.65rem,3.5vw,3.45rem)] font-bold uppercase leading-[0.98] tracking-[-0.045em]",
                 isRTL && "font-arabic leading-[1.16]"
               )}
             >
