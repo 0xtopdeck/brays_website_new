@@ -36,7 +36,7 @@ export default function Home() {
       description: ar
         ? "نحن على أعتاب بابكم لخدمتكم."
         : "We are here to serve you, wherever you are.",
-      image: "/images/tours-airport-arrival-branded.png",
+      image: "/images/tours-home-door-service.png",
       href: "/tours",
       label: ar ? "استكشف الجولات" : "Explore Tours",
       icon: CarFront,
@@ -268,7 +268,10 @@ export default function Home() {
                     alt={story.title}
                     fill
                     sizes={story.featured ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+                    className={clsx(
+                      "object-cover transition-transform duration-700 group-hover:scale-[1.025]",
+                      story.key === "tours" ? "object-[68%_center]" : "object-center",
+                    )}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#05080b] via-[#05080b]/20 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 z-10 p-7 text-white md:p-10">

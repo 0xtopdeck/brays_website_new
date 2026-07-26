@@ -96,6 +96,20 @@ const copy = {
       campAlt: "A modern panoramic dome tent among the golden dunes of Bidiyah, Oman",
       interiorAlt: "Modern desert tent interior with a king-size bed and panoramic dune views",
     },
+    salalah: {
+      eyebrow: "Featured seasonal escape",
+      title: "Salalah: Mountains, Waterfalls & Coast",
+      body:
+        "Discover Salalah through mist-green mountain roads, flowing wadis and waterfalls, and the wild beaches of Dhofar. We tailor the route to the season, weather, and pace of your private journey.",
+      highlights: [
+        "Wadi Darbat and seasonal waterfalls",
+        "Cloud-wrapped mountain viewpoints",
+        "Mughsail and Dhofar’s dramatic coast",
+        "Private itinerary with door-to-door transport",
+      ],
+      cta: "Plan your Salalah journey",
+      alt: "A travel collage of Salalah’s turquoise wadis, seasonal waterfalls, green mountains, and dramatic coast in Dhofar, Oman",
+    },
     destinationsEyebrow: "Private tours across Oman",
     destinationsTitle: "A different horizon for every day.",
     destinationsBody:
@@ -217,6 +231,20 @@ const copy = {
       campAlt: "خيمة قبة بانورامية عصرية بين كثبان بدية الذهبية",
       interiorAlt: "تصميم داخلي عصري لخيمة صحراوية مع سرير كينغ ونوافذ بانورامية",
     },
+    salalah: {
+      eyebrow: "رحلة موسمية مميزة",
+      title: "صلالة: الجبال والشلالات والساحل",
+      body:
+        "اكتشف صلالة عبر طرقها الجبلية الخضراء، وأوديتها وشلالاتها المتدفقة، وسواحل ظفار الساحرة. نصمم المسار الخاص بما يناسب الموسم والطقس وإيقاع رحلتك.",
+      highlights: [
+        "وادي دربات والشلالات الموسمية",
+        "إطلالات جبلية تلامسها السحب",
+        "المغسيل وساحل ظفار المهيب",
+        "برنامج خاص وتنقّل من الباب إلى الباب",
+      ],
+      cta: "خطط لرحلتك إلى صلالة",
+      alt: "مجموعة صور لصلالة تشمل الأودية الفيروزية والشلالات الموسمية والجبال الخضراء وساحل ظفار",
+    },
     destinationsEyebrow: "جولات خاصة في أنحاء عُمان",
     destinationsTitle: "أفق مختلف لكل يوم.",
     destinationsBody:
@@ -278,11 +306,11 @@ export default function ToursPage() {
         aria-labelledby="tours-hero-title"
       >
         <Image
-          src="/images/tours-airport-arrival-branded.png"
+          src="/images/tours-airport-welcome-flowers.png"
           alt={
             lang === "ar"
-              ? "موظفة استقبال ترحب بضيف بجوار سيارة رينج روفر بيضاء فاخرة في مطار مسقط"
-              : "A formally dressed host welcoming a guest beside a white luxury Range Rover at Muscat airport"
+              ? "موظفة استقبال تقدم الزهور لضيفة وتدعوها إلى سيارة رينج روفر بيضاء فاخرة في مطار مسقط"
+              : "A formally dressed host presenting flowers to a guest and inviting her to a white luxury Range Rover at Muscat airport"
           }
           fill
           preload
@@ -546,6 +574,47 @@ export default function ToursPage() {
                   />
                 </div>
               </div>
+            </div>
+          </article>
+
+          <article className="mt-8 grid overflow-hidden rounded-[2rem] border border-line bg-[#08131c] text-white shadow-premium lg:grid-cols-[1.12fr_0.88fr]">
+            <div className="relative min-h-[380px] overflow-hidden sm:min-h-[480px] lg:min-h-[560px]">
+              <Image
+                src="/images/tours-salalah-collage.png"
+                alt={c.salalah.alt}
+                fill
+                sizes="(max-width: 1023px) 100vw, 58vw"
+                className="object-cover transition-transform duration-700 ease-out hover:scale-[1.015]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 lg:bg-gradient-to-r lg:from-transparent lg:to-[#08131c]/20 rtl:lg:bg-gradient-to-l" />
+            </div>
+
+            <div className="flex flex-col justify-center p-6 sm:p-10 lg:p-12">
+              <div className={clsx("flex items-center gap-3", isRTL && "flex-row-reverse justify-end")}>
+                <MapPinned className="h-5 w-5 text-accent" aria-hidden="true" />
+                <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-accent sm:text-xs">
+                  {c.salalah.eyebrow}
+                </span>
+              </div>
+              <h3 className="mt-5 text-balance font-serif text-4xl font-bold leading-none tracking-tight sm:text-5xl">
+                {c.salalah.title}
+              </h3>
+              <p className="mt-6 text-base leading-8 text-white/70 sm:text-lg">{c.salalah.body}</p>
+              <ul className="mt-7 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+                {c.salalah.highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-3 text-sm leading-6 text-white/85">
+                    <Check className="mt-1 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/contact"
+                className="mt-9 inline-flex min-h-12 w-fit items-center justify-center gap-3 rounded-full bg-accent px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-background transition-colors hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+              >
+                {c.salalah.cta}
+                <ArrowRight className={clsx("h-4 w-4", isRTL && "rotate-180")} aria-hidden="true" />
+              </Link>
             </div>
           </article>
 
