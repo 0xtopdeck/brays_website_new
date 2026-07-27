@@ -1,0 +1,596 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+} from "lucide-react";
+import clsx from "clsx";
+import { useLanguage } from "./LanguageContext";
+
+const AUTOPLAY_DELAY = 7500;
+const TRANSITION_DURATION = 850;
+
+type HeroSlide = {
+  id: string;
+  label: string;
+  eyebrow: string;
+  title: string;
+  accentTitle: string;
+  description: string;
+  image: string;
+  secondaryImage?: string;
+  collageImages?: Array<{
+    src: string;
+    objectPosition: string;
+  }>;
+  objectPosition: string;
+  secondaryObjectPosition?: string;
+  href: string;
+  cta: string;
+  secondaryHref: string;
+  secondaryCta: string;
+  compactTitle?: boolean;
+};
+
+export default function HomeHeroCarousel() {
+  const { lang, isRTL } = useLanguage();
+  const ar = lang === "ar";
+
+  const slides = useMemo<HeroSlide[]>(
+    () =>
+      ar
+        ? [
+            {
+              id: "overview",
+              label: "لمحة عامة",
+              eyebrow: "شركة اثنين في واحد ش.م.م · عُمان",
+              title: "نربط الخبرات والموارد والفرص",
+              accentTitle: "لنقدّم حلولاً بلا حدود",
+              description:
+                "شركة عُمانية متعددة الأنشطة تجمع الخدمات والتجارة والتوريد والتصنيع من خلال تنسيق منضبط وشراكات موثوقة ومعيار واحد.",
+              image: "/images/hvac_maintenance.png",
+              collageImages: [
+                { src: "/images/hvac_maintenance.png", objectPosition: "object-[64%_center]" },
+                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[68%_center]" },
+                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[58%_center]" },
+                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[70%_center]" },
+              ],
+              objectPosition: "object-center",
+              href: "#activities",
+              cta: "استكشف أنشطتنا",
+              secondaryHref: "/about",
+              secondaryCta: "من نحن",
+              compactTitle: true,
+            },
+            {
+              id: "facilities",
+              label: "خدمات المرافق",
+              eyebrow: "خدمات المرافق",
+              title: "خمس قدرات.",
+              accentTitle: "معيار واحد.",
+              description:
+                "الصيانة والمرافق، والبناء والبنية الأساسية، وإدارة المرافق، والأنظمة الذكية، والتجارة والتوزيع — بتنفيذ منضبط في مختلف أنحاء عُمان.",
+              image: "/images/hvac_maintenance.png",
+              objectPosition: "object-[64%_center]",
+              href: "/services",
+              cta: "استكشف خدمات المرافق",
+              secondaryHref: "/contact",
+              secondaryCta: "ناقش متطلباتك",
+            },
+            {
+              id: "events",
+              label: "الفعاليات",
+              eyebrow: "الفعاليات والإنتاج",
+              title: "من الفكرة",
+              accentTitle: "إلى آخر ضيف.",
+              description:
+                "تنفيذ راقٍ للفعاليات وإنتاج إبداعي يجمع بين الدقة والتميّز البصري والتنسيق المتكامل.",
+              image: "/images/Conference_TwoInOne.png",
+              objectPosition: "object-[68%_center]",
+              href: "/events",
+              cta: "خطط لفعالية",
+              secondaryHref: "/contact",
+              secondaryCta: "تواصل معنا",
+            },
+            {
+              id: "tours",
+              label: "الجولات",
+              eyebrow: "الجولات والتنقّل الفاخر",
+              title: "استكشف عُمان",
+              accentTitle: "بأقصى درجات الفخامة.",
+              description:
+                "استمتع بتجربة تنقّل راقية مع سيارات الدفع الرباعي الفاخرة، مع سائق محترف أو بخيار القيادة الذاتية، بما يلائم أسلوب حياتك واحتياجاتك.",
+              image: "/images/tours-airport-welcome-flowers.png",
+              objectPosition: "object-[68%_center]",
+              href: "/tours",
+              cta: "استكشف الجولات",
+              secondaryHref: "/contact",
+              secondaryCta: "احجز رحلتك",
+            },
+            {
+              id: "commodities",
+              label: "السلع والمواد",
+              eyebrow: "السلع والمواد",
+              title: "توريد مدروس.",
+              accentTitle: "وتسليم بدقة.",
+              description:
+                "وجهة واحدة للزراعة والأغذية بالجملة والصلب الإنشائي والكبريت — مع توريد وفحص وتنسيق لوجستي يلائم متطلبات كل مشروع.",
+              image: "/images/harvesting_brays_hero_product.png",
+              objectPosition: "object-[58%_center]",
+              href: "/commodities",
+              cta: "استكشف السلع والمواد",
+              secondaryHref: "/contact",
+              secondaryCta: "أرسل طلبك",
+            },
+            {
+              id: "operational-supply",
+              label: "التوريد التشغيلي",
+              eyebrow: "الزي المهني والآلات وقطع الغيار",
+              title: "مصمم للعمل.",
+              accentTitle: "جاهز للتشغيل.",
+              description:
+                "ملابس عمل وحماية مصممة حسب الغرض، إلى جانب توريد موثوق للآلات وقطع الغيار الأصلية لتلبية احتياجات التشغيل.",
+              image: "/images/auto-parts-airfreight.png",
+              secondaryImage: "/images/uniforms-hero.png",
+              objectPosition: "object-center",
+              secondaryObjectPosition: "object-[68%_center]",
+              href: "/uniforms",
+              cta: "استكشف الزي المهني",
+              secondaryHref: "/auto-parts",
+              secondaryCta: "الآلات وقطع الغيار",
+            },
+          ]
+        : [
+            {
+              id: "overview",
+              label: "Overview",
+              eyebrow: "Two in One LLC · Oman",
+              title: "Connecting Expertise, Resources, and Opportunities",
+              accentTitle: "Delivering Solutions Without Boundaries",
+              description:
+                "An Omani multi-sector company connecting services, trade, supply, and manufacturing through disciplined coordination, trusted partnerships, and one clear standard.",
+              image: "/images/hvac_maintenance.png",
+              collageImages: [
+                { src: "/images/hvac_maintenance.png", objectPosition: "object-[64%_center]" },
+                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[68%_center]" },
+                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[58%_center]" },
+                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[70%_center]" },
+              ],
+              objectPosition: "object-center",
+              href: "#activities",
+              cta: "Explore Our Activities",
+              secondaryHref: "/about",
+              secondaryCta: "About Us",
+              compactTitle: true,
+            },
+            {
+              id: "facilities",
+              label: "Facilities",
+              eyebrow: "Facility Services",
+              title: "Five Capabilities.",
+              accentTitle: "One Standard.",
+              description:
+                "Maintenance and utilities, construction and infrastructure, facilities management, smart systems, and trading and distribution—delivered across Oman to one uncompromising standard.",
+              image: "/images/hvac_maintenance.png",
+              objectPosition: "object-[64%_center]",
+              href: "/services",
+              cta: "Explore Facility Services",
+              secondaryHref: "/contact",
+              secondaryCta: "Discuss a Requirement",
+            },
+            {
+              id: "events",
+              label: "Events",
+              eyebrow: "Events & Production",
+              title: "From Concept",
+              accentTitle: "To the Final Guest.",
+              description:
+                "Refined event execution and creative production, combining precision, visual excellence, and seamless coordination.",
+              image: "/images/Conference_TwoInOne.png",
+              objectPosition: "object-[68%_center]",
+              href: "/events",
+              cta: "Plan an Event",
+              secondaryHref: "/contact",
+              secondaryCta: "Talk to Our Team",
+            },
+            {
+              id: "tours",
+              label: "Tours",
+              eyebrow: "Tours & Luxury Mobility",
+              title: "Experience Oman",
+              accentTitle: "In Ultimate Luxury.",
+              description:
+                "Travel in world-class SUVs with professional chauffeur services or self-drive options, tailored to your lifestyle.",
+              image: "/images/tours-airport-welcome-flowers.png",
+              objectPosition: "object-[68%_center]",
+              href: "/tours",
+              cta: "Explore Tours",
+              secondaryHref: "/contact",
+              secondaryCta: "Plan Your Journey",
+            },
+            {
+              id: "commodities",
+              label: "Commodities",
+              eyebrow: "Commodities & Materials",
+              title: "Sourced with Care.",
+              accentTitle: "Delivered with Precision.",
+              description:
+                "Agriculture, food wholesale, structural steel, and sulfur—with sourcing, inspection, and logistics shaped around each requirement.",
+              image: "/images/harvesting_brays_hero_product.png",
+              objectPosition: "object-[58%_center]",
+              href: "/commodities",
+              cta: "Explore Commodities",
+              secondaryHref: "/contact",
+              secondaryCta: "Send an Enquiry",
+            },
+            {
+              id: "operational-supply",
+              label: "Operational Supply",
+              eyebrow: "Uniforms, Machinery & Auto Parts",
+              title: "Built for Work.",
+              accentTitle: "Ready for Operations.",
+              description:
+                "Purpose-built workwear and protective clothing, backed by reliable machinery and genuine auto-parts sourcing for operational needs.",
+              image: "/images/auto-parts-airfreight.png",
+              secondaryImage: "/images/uniforms-hero.png",
+              objectPosition: "object-center",
+              secondaryObjectPosition: "object-[68%_center]",
+              href: "/uniforms",
+              cta: "Explore Uniforms",
+              secondaryHref: "/auto-parts",
+              secondaryCta: "Machinery & Auto Parts",
+            },
+          ],
+    [ar],
+  );
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [interactionPaused, setInteractionPaused] = useState(false);
+  const [documentHidden, setDocumentHidden] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const activeIndexRef = useRef(0);
+  const touchStartX = useRef<number | null>(null);
+
+  const changeSlide = useCallback(
+    (nextIndex: number, manual = false) => {
+      const normalizedIndex = (nextIndex + slides.length) % slides.length;
+      const currentIndex = activeIndexRef.current;
+
+      if (normalizedIndex === currentIndex) return;
+
+      setPreviousIndex(currentIndex);
+      activeIndexRef.current = normalizedIndex;
+      setActiveIndex(normalizedIndex);
+
+      if (manual) setIsPlaying(false);
+    },
+    [slides.length],
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotionPreference = () => {
+      setReduceMotion(mediaQuery.matches);
+      if (mediaQuery.matches) setIsPlaying(false);
+    };
+
+    updateMotionPreference();
+    mediaQuery.addEventListener("change", updateMotionPreference);
+    return () => mediaQuery.removeEventListener("change", updateMotionPreference);
+  }, []);
+
+  useEffect(() => {
+    const handleVisibility = () => setDocumentHidden(document.hidden);
+    handleVisibility();
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying || interactionPaused || documentHidden || reduceMotion) return;
+
+    const timer = window.setTimeout(() => {
+      changeSlide(activeIndexRef.current + 1);
+    }, AUTOPLAY_DELAY);
+
+    return () => window.clearTimeout(timer);
+  }, [
+    activeIndex,
+    changeSlide,
+    documentHidden,
+    interactionPaused,
+    isPlaying,
+    reduceMotion,
+  ]);
+
+  useEffect(() => {
+    if (previousIndex === null) return;
+
+    const timer = window.setTimeout(
+      () => setPreviousIndex(null),
+      reduceMotion ? 0 : TRANSITION_DURATION + 100,
+    );
+
+    return () => window.clearTimeout(timer);
+  }, [previousIndex, reduceMotion]);
+
+  const activeSlide = slides[activeIndex];
+  const nextIndex = (activeIndex + 1) % slides.length;
+  const layerIndices = Array.from(
+    new Set(
+      [nextIndex, previousIndex, activeIndex].filter(
+        (index): index is number => index !== null,
+      ),
+    ),
+  );
+
+  const previousLabel = ar ? "الشريحة السابقة" : "Previous slide";
+  const nextLabel = ar ? "الشريحة التالية" : "Next slide";
+  const playLabel = ar ? "تشغيل التبديل التلقائي" : "Play automatic rotation";
+  const pauseLabel = ar ? "إيقاف التبديل التلقائي" : "Pause automatic rotation";
+
+  return (
+    <section
+      className="relative min-h-[780px] overflow-hidden bg-[#05080b] text-white sm:min-h-[800px] lg:min-h-[820px]"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={ar ? "أنشطة شركة اثنين في واحد" : "Two in One company activities"}
+      onMouseEnter={() => setInteractionPaused(true)}
+      onMouseLeave={() => setInteractionPaused(false)}
+      onFocusCapture={() => setInteractionPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setInteractionPaused(false);
+        }
+      }}
+      onTouchStart={(event) => {
+        touchStartX.current = event.changedTouches[0]?.clientX ?? null;
+      }}
+      onTouchEnd={(event) => {
+        if (touchStartX.current === null) return;
+        const delta = (event.changedTouches[0]?.clientX ?? touchStartX.current) - touchStartX.current;
+        touchStartX.current = null;
+
+        if (Math.abs(delta) < 56) return;
+
+        const moveForward = isRTL ? delta > 0 : delta < 0;
+        changeSlide(activeIndex + (moveForward ? 1 : -1), true);
+      }}
+    >
+      <div className="absolute inset-0" aria-hidden="true">
+        {layerIndices.map((index) => {
+          const slide = slides[index];
+          const isActive = index === activeIndex;
+          const isPrevious = index === previousIndex;
+
+          return (
+            <div
+              key={slide.id}
+              className={clsx(
+                "absolute inset-0 transition-opacity ease-out motion-reduce:transition-none",
+                isActive || isPrevious ? "opacity-100" : "opacity-0",
+                isActive ? "z-10" : "z-0",
+              )}
+              style={{
+                transitionDuration: reduceMotion ? "0ms" : `${TRANSITION_DURATION}ms`,
+              }}
+            >
+              {slide.collageImages ? (
+                <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
+                  {slide.collageImages.map((image, imageIndex) => (
+                    <div
+                      key={image.src}
+                      className="relative overflow-hidden border-[0.5px] border-white/10"
+                    >
+                      <Image
+                        src={image.src}
+                        alt=""
+                        fill
+                        preload={index === 0 && imageIndex === 0}
+                        sizes="50vw"
+                        className={clsx("object-cover", image.objectPosition)}
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : slide.secondaryImage ? (
+                <div className="absolute inset-0 grid grid-cols-2">
+                  <div className="relative">
+                    <Image
+                      src={slide.image}
+                      alt=""
+                      fill
+                      sizes="50vw"
+                      className={clsx("object-cover", slide.objectPosition)}
+                    />
+                  </div>
+                  <div className="relative">
+                    <Image
+                      src={slide.secondaryImage}
+                      alt=""
+                      fill
+                      sizes="50vw"
+                      className={clsx(
+                        "object-cover",
+                        slide.secondaryObjectPosition ?? "object-center",
+                      )}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <Image
+                  src={slide.image}
+                  alt=""
+                  fill
+                  preload={index === 0}
+                  sizes="100vw"
+                  className={clsx("object-cover", slide.objectPosition)}
+                />
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/20 rtl:bg-gradient-to-l" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/25" />
+
+      <div className="container relative z-20 mx-auto flex min-h-[780px] items-center px-5 pb-40 pt-10 sm:min-h-[800px] sm:px-8 lg:min-h-[820px] lg:px-12">
+        <div
+          key={`${lang}-${activeSlide.id}`}
+          className={clsx(
+            "hero-content-enter flex min-h-[470px] max-w-4xl flex-col justify-center",
+            isRTL && "text-start",
+          )}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${activeIndex + 1} ${ar ? "من" : "of"} ${slides.length}: ${activeSlide.label}`}
+          aria-live="off"
+        >
+          <div className="mb-6 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[11px]">
+            <span className="h-px w-8 bg-accent" />
+            {activeSlide.eyebrow}
+          </div>
+
+          <h1
+            className={clsx(
+              "max-w-4xl text-balance font-serif font-bold uppercase leading-[0.96] tracking-[-0.045em]",
+              activeSlide.compactTitle
+                ? "text-[clamp(2rem,3.7vw,3.8rem)]"
+                : "text-[clamp(2.55rem,5.4vw,5.6rem)]",
+              isRTL && "font-arabic leading-[1.14] tracking-normal",
+            )}
+          >
+            {activeSlide.title}
+            <span className="mt-2 block text-accent">{activeSlide.accentTitle}</span>
+          </h1>
+
+          <p className="mt-7 max-w-2xl text-balance text-sm leading-7 text-white/76 sm:text-base lg:text-lg">
+            {activeSlide.description}
+          </p>
+
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link
+              href={activeSlide.href}
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 text-[11px] font-bold uppercase tracking-[0.16em] text-[#061016] transition-colors hover:bg-white"
+            >
+              {activeSlide.cta}
+              <ArrowRight
+                className={clsx(
+                  "h-4 w-4 transition-transform group-hover:translate-x-1",
+                  isRTL && "rotate-180 group-hover:-translate-x-1",
+                )}
+              />
+            </Link>
+            <Link
+              href={activeSlide.secondaryHref}
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full border border-white/35 bg-black/15 px-7 text-[11px] font-bold uppercase tracking-[0.16em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-[#061016]"
+            >
+              {activeSlide.secondaryCta}
+              <ArrowRight
+                className={clsx(
+                  "h-4 w-4 transition-transform group-hover:translate-x-1",
+                  isRTL && "rotate-180 group-hover:-translate-x-1",
+                )}
+              />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-0 z-30 border-t border-white/12 bg-black/48 backdrop-blur-md">
+        <div className="container mx-auto flex min-h-24 items-center gap-2 px-4 py-3 sm:px-8 lg:px-12">
+          <button
+            type="button"
+            onClick={() => changeSlide(activeIndex - 1, true)}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-accent hover:text-accent"
+            aria-label={previousLabel}
+          >
+            {isRTL ? (
+              <ChevronRight className="h-5 w-5" />
+            ) : (
+              <ChevronLeft className="h-5 w-5" />
+            )}
+          </button>
+
+          <div className="hidden min-w-0 flex-1 grid-cols-6 gap-1 md:grid">
+            {slides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => changeSlide(index, true)}
+                aria-label={`${ar ? "عرض" : "Show"} ${slide.label}`}
+                aria-current={index === activeIndex ? "true" : undefined}
+                className={clsx(
+                  "min-h-14 rounded-lg border px-3 py-2 text-start transition-colors",
+                  index === activeIndex
+                    ? "border-accent/70 bg-accent/12 text-white"
+                    : "border-transparent text-white/48 hover:border-white/15 hover:text-white",
+                )}
+              >
+                <span className="block text-[9px] font-bold tracking-[0.16em] text-accent">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="mt-1 block truncate text-[10px] font-semibold uppercase tracking-[0.1em]">
+                  {slide.label}
+                </span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-2 md:hidden">
+            <span className="me-2 truncate text-[10px] font-bold uppercase tracking-[0.12em] text-white/75">
+              {activeSlide.label}
+            </span>
+            {slides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => changeSlide(index, true)}
+                aria-label={`${ar ? "عرض" : "Show"} ${slide.label}`}
+                aria-current={index === activeIndex ? "true" : undefined}
+                className={clsx(
+                  "h-2.5 rounded-full transition-all",
+                  index === activeIndex
+                    ? "w-7 bg-accent"
+                    : "w-2.5 bg-white/30 hover:bg-white/60",
+                )}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsPlaying((playing) => !playing)}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-accent hover:text-accent"
+            aria-label={isPlaying ? pauseLabel : playLabel}
+            aria-pressed={!isPlaying}
+          >
+            {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => changeSlide(activeIndex + 1, true)}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-accent hover:text-accent"
+            aria-label={nextLabel}
+          >
+            {isRTL ? (
+              <ChevronLeft className="h-5 w-5" />
+            ) : (
+              <ChevronRight className="h-5 w-5" />
+            )}
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}

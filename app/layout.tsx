@@ -33,32 +33,32 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://twoinone.llc"),
-  title: "Two in One LLC",
+  title: "Two in One LLC | Integrated Services & Trade in Oman",
   description:
-    "Luxury tours, refined event production, and dependable facility services across Oman, delivered through disciplined execution and trusted partnerships.",
+    "Integrated facility services, event production, luxury mobility, commodities, professional uniforms, machinery, and operational supply across Oman.",
   openGraph: {
-    title: "Two in One LLC",
+    title: "Two in One LLC | Integrated Services & Trade in Oman",
     description:
-      "Luxury tours, refined events, and dependable facility services across Oman.",
+      "Connecting facility services, events, journeys, trade, manufacturing, and operational supply across Oman.",
     url: "/",
     siteName: "Two in One LLC",
     locale: "en_OM",
     type: "website",
     images: [
       {
-        url: "/og-range-rover.png",
-        width: 1731,
-        height: 909,
-        alt: "Two in One LLC — Tours, Events, and Facility Services",
+        url: "/images/og-company-wide.png",
+        width: 1672,
+        height: 941,
+        alt: "Two in One LLC — integrated services, trade, and supply across Oman",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Two in One LLC",
+    title: "Two in One LLC | Integrated Services & Trade in Oman",
     description:
-      "Luxury tours, refined events, and dependable facility services across Oman.",
-    images: ["/og-range-rover.png"],
+      "Connecting facility services, events, journeys, trade, manufacturing, and operational supply across Oman.",
+    images: ["/images/og-company-wide.png"],
   },
 };
 
