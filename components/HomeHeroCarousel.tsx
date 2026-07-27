@@ -260,7 +260,7 @@ export default function HomeHeroCarousel() {
   const touchStartX = useRef<number | null>(null);
 
   const changeSlide = useCallback(
-    (nextIndex: number, manual = false) => {
+    (nextIndex: number) => {
       const normalizedIndex = (nextIndex + slides.length) % slides.length;
       const currentIndex = activeIndexRef.current;
 
@@ -269,8 +269,6 @@ export default function HomeHeroCarousel() {
       setPreviousIndex(currentIndex);
       activeIndexRef.current = normalizedIndex;
       setActiveIndex(normalizedIndex);
-
-      if (manual) setIsPlaying(false);
     },
     [slides.length],
   );
@@ -295,23 +293,6 @@ export default function HomeHeroCarousel() {
   }, []);
 
   useEffect(() => {
-    if (!isPlaying || interactionPaused || documentHidden || reduceMotion) return;
-
-    const timer = window.setTimeout(() => {
-      changeSlide(activeIndexRef.current + 1);
-    }, AUTOPLAY_DELAY);
-
-    return () => window.clearTimeout(timer);
-  }, [
-    activeIndex,
-    changeSlide,
-    documentHidden,
-    interactionPaused,
-    isPlaying,
-    reduceMotion,
-  ]);
-
-  useEffect(() => {
     if (previousIndex === null) return;
 
     const timer = window.setTimeout(
@@ -323,6 +304,8 @@ export default function HomeHeroCarousel() {
   }, [previousIndex, reduceMotion]);
 
   const activeSlide = slides[activeIndex];
+  const rotationRunning =
+    isPlaying && !interactionPaused && !documentHidden && !reduceMotion;
   const nextIndex = (activeIndex + 1) % slides.length;
   const layerIndices = Array.from(
     new Set(
@@ -362,7 +345,7 @@ export default function HomeHeroCarousel() {
         if (Math.abs(delta) < 56) return;
 
         const moveForward = isRTL ? delta > 0 : delta < 0;
-        changeSlide(activeIndex + (moveForward ? 1 : -1), true);
+        changeSlide(activeIndex + (moveForward ? 1 : -1));
       }}
     >
       <div className="absolute inset-0" aria-hidden="true">
@@ -383,58 +366,66 @@ export default function HomeHeroCarousel() {
                 transitionDuration: reduceMotion ? "0ms" : `${TRANSITION_DURATION}ms`,
               }}
             >
-              {slide.collageImages ? (
-                <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
-                  {slide.collageImages.map((image, imageIndex) => (
-                    <div
-                      key={image.src}
-                      className="relative overflow-hidden border-[0.5px] border-white/10"
-                    >
+              <div
+                className={clsx(
+                  "absolute inset-0",
+                  isActive && "hero-image-drift",
+                  isActive && !rotationRunning && "hero-animation-paused",
+                )}
+              >
+                {slide.collageImages ? (
+                  <div className="absolute inset-0 grid grid-cols-2 grid-rows-2">
+                    {slide.collageImages.map((image, imageIndex) => (
+                      <div
+                        key={image.src}
+                        className="relative overflow-hidden border-[0.5px] border-white/10"
+                      >
+                        <Image
+                          src={image.src}
+                          alt=""
+                          fill
+                          preload={index === 0 && imageIndex === 0}
+                          sizes="50vw"
+                          className={clsx("object-cover", image.objectPosition)}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ) : slide.secondaryImage ? (
+                  <div className="absolute inset-0 grid grid-cols-2">
+                    <div className="relative">
                       <Image
-                        src={image.src}
+                        src={slide.image}
                         alt=""
                         fill
-                        preload={index === 0 && imageIndex === 0}
                         sizes="50vw"
-                        className={clsx("object-cover", image.objectPosition)}
+                        className={clsx("object-cover", slide.objectPosition)}
                       />
                     </div>
-                  ))}
-                </div>
-              ) : slide.secondaryImage ? (
-                <div className="absolute inset-0 grid grid-cols-2">
-                  <div className="relative">
-                    <Image
-                      src={slide.image}
-                      alt=""
-                      fill
-                      sizes="50vw"
-                      className={clsx("object-cover", slide.objectPosition)}
-                    />
+                    <div className="relative">
+                      <Image
+                        src={slide.secondaryImage}
+                        alt=""
+                        fill
+                        sizes="50vw"
+                        className={clsx(
+                          "object-cover",
+                          slide.secondaryObjectPosition ?? "object-center",
+                        )}
+                      />
+                    </div>
                   </div>
-                  <div className="relative">
-                    <Image
-                      src={slide.secondaryImage}
-                      alt=""
-                      fill
-                      sizes="50vw"
-                      className={clsx(
-                        "object-cover",
-                        slide.secondaryObjectPosition ?? "object-center",
-                      )}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <Image
-                  src={slide.image}
-                  alt=""
-                  fill
-                  preload={index === 0}
-                  sizes="100vw"
-                  className={clsx("object-cover", slide.objectPosition)}
-                />
-              )}
+                ) : (
+                  <Image
+                    src={slide.image}
+                    alt=""
+                    fill
+                    preload={index === 0}
+                    sizes="100vw"
+                    className={clsx("object-cover", slide.objectPosition)}
+                  />
+                )}
+              </div>
             </div>
           );
         })}
@@ -442,6 +433,16 @@ export default function HomeHeroCarousel() {
 
       <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/20 rtl:bg-gradient-to-l" />
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/25" />
+      {!reduceMotion && (
+        <div
+          key={`frame-${activeSlide.id}`}
+          className={clsx(
+            "hero-frame-trace absolute inset-x-4 top-4 bottom-28 z-[15] rounded-2xl sm:inset-x-6 sm:top-6 sm:bottom-32 lg:inset-x-8 lg:top-8",
+            !rotationRunning && "hero-animation-paused",
+          )}
+          aria-hidden="true"
+        />
+      )}
 
       <div className="container relative z-20 mx-auto flex min-h-[780px] items-center px-5 pb-40 pt-10 sm:min-h-[800px] sm:px-8 lg:min-h-[820px] lg:px-12">
         <div
@@ -507,10 +508,30 @@ export default function HomeHeroCarousel() {
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-30 border-t border-white/12 bg-black/48 backdrop-blur-md">
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-px overflow-hidden bg-white/8"
+          aria-hidden="true"
+        >
+          {!reduceMotion && (
+            <span
+              key={`progress-${activeSlide.id}`}
+              className="hero-rotation-progress absolute inset-0 origin-left bg-gradient-to-r from-accent/25 via-accent to-white/85 shadow-[0_0_10px_rgba(68,188,229,0.9)] rtl:origin-right"
+              style={{
+                animationDuration: `${AUTOPLAY_DELAY}ms`,
+                animationPlayState: rotationRunning ? "running" : "paused",
+              }}
+              onAnimationEnd={() => {
+                if (rotationRunning) {
+                  changeSlide(activeIndexRef.current + 1);
+                }
+              }}
+            />
+          )}
+        </div>
         <div className="container mx-auto flex min-h-24 items-center gap-2 px-4 py-3 sm:px-8 lg:px-12">
           <button
             type="button"
-            onClick={() => changeSlide(activeIndex - 1, true)}
+            onClick={() => changeSlide(activeIndex - 1)}
             className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-accent hover:text-accent"
             aria-label={previousLabel}
           >
@@ -526,7 +547,7 @@ export default function HomeHeroCarousel() {
               <button
                 key={slide.id}
                 type="button"
-                onClick={() => changeSlide(index, true)}
+                onClick={() => changeSlide(index)}
                 aria-label={`${ar ? "عرض" : "Show"} ${slide.label}`}
                 aria-current={index === activeIndex ? "true" : undefined}
                 className={clsx(
@@ -554,7 +575,7 @@ export default function HomeHeroCarousel() {
               <button
                 key={slide.id}
                 type="button"
-                onClick={() => changeSlide(index, true)}
+                onClick={() => changeSlide(index)}
                 aria-label={`${ar ? "عرض" : "Show"} ${slide.label}`}
                 aria-current={index === activeIndex ? "true" : undefined}
                 className={clsx(
@@ -579,7 +600,7 @@ export default function HomeHeroCarousel() {
 
           <button
             type="button"
-            onClick={() => changeSlide(activeIndex + 1, true)}
+            onClick={() => changeSlide(activeIndex + 1)}
             className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/20 text-white transition-colors hover:border-accent hover:text-accent"
             aria-label={nextLabel}
           >
