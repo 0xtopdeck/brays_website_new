@@ -24,16 +24,16 @@ export default function AboutPage() {
       <section className="relative flex h-[68svh] min-h-[540px] w-full items-end overflow-hidden bg-[#06080b] pb-12 pt-36 md:h-[60vh] md:min-h-[460px] md:items-center md:py-0">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/about-muttrah-corniche.png"
+            src="/images/about-mirror-pool-tree-clean.png"
             alt={
               lang === "ar"
-                ? "كورنيش مطرح وميناؤها في مسقط"
-                : "Muttrah Corniche and harbour in Muscat"
+                ? "حوض عاكس ومنحوتة شجرة ضمن عمارة عُمانية معاصرة"
+                : "Mirror pool and tree sculpture in contemporary Omani architecture"
             }
             fill
             preload
             sizes="100vw"
-            className="object-cover object-[72%_center] md:object-center"
+            className="object-cover object-center"
           />
           <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(6,8,11,0.02)_0%,rgba(6,8,11,0.08)_44%,rgba(6,8,11,0.78)_76%,rgba(6,8,11,0.96)_100%)] md:hidden" />
           <div className="absolute inset-0 hidden bg-gradient-to-r from-[#06080b] via-[#06080b]/72 to-transparent md:block rtl:bg-gradient-to-l" />
