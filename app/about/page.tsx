@@ -24,7 +24,7 @@ export default function AboutPage() {
       <section className="relative flex h-[68svh] min-h-[540px] w-full items-end overflow-hidden bg-[#06080b] pb-12 pt-36 md:h-[60vh] md:min-h-[460px] md:items-center md:py-0">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/about-mirror-pool-tree-clean.png"
+            src="/images/about-ota.jpg"
             alt={
               lang === "ar"
                 ? "حوض عاكس ومنحوتة شجرة ضمن عمارة عُمانية معاصرة"
