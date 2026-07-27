@@ -56,10 +56,10 @@ export default function HomeHeroCarousel() {
                 "شركة عُمانية متعددة الأنشطة تجمع الخدمات والتجارة والتوريد والتصنيع من خلال تنسيق منضبط وشراكات موثوقة ومعيار واحد.",
               image: "/images/hvac_maintenance.png",
               collageImages: [
-                { src: "/images/hvac_maintenance.png", objectPosition: "object-[64%_center]" },
-                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[68%_center]" },
-                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[58%_center]" },
-                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[70%_center]" },
+                { src: "/images/hvac_maintenance.png", objectPosition: "object-[50%_center] sm:object-[64%_center]" },
+                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
+                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[55%_center] sm:object-[58%_center]" },
+                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[72%_center] sm:object-[70%_center]" },
               ],
               objectPosition: "object-center",
               href: "#activities",
@@ -77,7 +77,7 @@ export default function HomeHeroCarousel() {
               description:
                 "الصيانة والمرافق، والبناء والبنية الأساسية، وإدارة المرافق، والأنظمة الذكية، والتجارة والتوزيع — بتنفيذ منضبط في مختلف أنحاء عُمان.",
               image: "/images/hvac_maintenance.png",
-              objectPosition: "object-[64%_center]",
+              objectPosition: "object-[50%_center] sm:object-[64%_center]",
               href: "/services",
               cta: "استكشف خدمات المرافق",
               secondaryHref: "/contact",
@@ -92,7 +92,7 @@ export default function HomeHeroCarousel() {
               description:
                 "تنفيذ راقٍ للفعاليات وإنتاج إبداعي يجمع بين الدقة والتميّز البصري والتنسيق المتكامل.",
               image: "/images/Conference_TwoInOne.png",
-              objectPosition: "object-[68%_center]",
+              objectPosition: "object-[73%_center] sm:object-[68%_center]",
               href: "/events",
               cta: "خطط لفعالية",
               secondaryHref: "/contact",
@@ -107,7 +107,7 @@ export default function HomeHeroCarousel() {
               description:
                 "استمتع بتجربة تنقّل راقية مع سيارات الدفع الرباعي الفاخرة، مع سائق محترف أو بخيار القيادة الذاتية، بما يلائم أسلوب حياتك واحتياجاتك.",
               image: "/images/tours-airport-welcome-flowers.png",
-              objectPosition: "object-[68%_center]",
+              objectPosition: "object-[72%_center] sm:object-[68%_center]",
               href: "/tours",
               cta: "استكشف الجولات",
               secondaryHref: "/contact",
@@ -122,7 +122,7 @@ export default function HomeHeroCarousel() {
               description:
                 "وجهة واحدة للزراعة والأغذية بالجملة والصلب الإنشائي والكبريت — مع توريد وفحص وتنسيق لوجستي يلائم متطلبات كل مشروع.",
               image: "/images/harvesting_brays_hero_product.png",
-              objectPosition: "object-[58%_center]",
+              objectPosition: "object-[55%_center] sm:object-[58%_center]",
               href: "/commodities",
               cta: "استكشف السلع والمواد",
               secondaryHref: "/contact",
@@ -138,8 +138,8 @@ export default function HomeHeroCarousel() {
                 "ملابس عمل وحماية مصممة حسب الغرض، إلى جانب توريد موثوق للآلات وقطع الغيار الأصلية لتلبية احتياجات التشغيل.",
               image: "/images/auto-parts-airfreight.png",
               secondaryImage: "/images/uniforms-hero.png",
-              objectPosition: "object-center",
-              secondaryObjectPosition: "object-[68%_center]",
+              objectPosition: "object-[50%_center] sm:object-center",
+              secondaryObjectPosition: "object-[66%_center] sm:object-[68%_center]",
               href: "/uniforms",
               cta: "استكشف الزي المهني",
               secondaryHref: "/auto-parts",
@@ -157,10 +157,10 @@ export default function HomeHeroCarousel() {
                 "An Omani multi-sector company connecting services, trade, supply, and manufacturing through disciplined coordination, trusted partnerships, and one clear standard.",
               image: "/images/hvac_maintenance.png",
               collageImages: [
-                { src: "/images/hvac_maintenance.png", objectPosition: "object-[64%_center]" },
-                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[68%_center]" },
-                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[58%_center]" },
-                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[70%_center]" },
+                { src: "/images/hvac_maintenance.png", objectPosition: "object-[50%_center] sm:object-[64%_center]" },
+                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
+                { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[55%_center] sm:object-[58%_center]" },
+                { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[72%_center] sm:object-[70%_center]" },
               ],
               objectPosition: "object-center",
               href: "#activities",
@@ -178,7 +178,7 @@ export default function HomeHeroCarousel() {
               description:
                 "Maintenance and utilities, construction and infrastructure, facilities management, smart systems, and trading and distribution—delivered across Oman to one uncompromising standard.",
               image: "/images/hvac_maintenance.png",
-              objectPosition: "object-[64%_center]",
+              objectPosition: "object-[50%_center] sm:object-[64%_center]",
               href: "/services",
               cta: "Explore Facility Services",
               secondaryHref: "/contact",
@@ -193,7 +193,7 @@ export default function HomeHeroCarousel() {
               description:
                 "Refined event execution and creative production, combining precision, visual excellence, and seamless coordination.",
               image: "/images/Conference_TwoInOne.png",
-              objectPosition: "object-[68%_center]",
+              objectPosition: "object-[73%_center] sm:object-[68%_center]",
               href: "/events",
               cta: "Plan an Event",
               secondaryHref: "/contact",
@@ -208,7 +208,7 @@ export default function HomeHeroCarousel() {
               description:
                 "Travel in world-class SUVs with professional chauffeur services or self-drive options, tailored to your lifestyle.",
               image: "/images/tours-airport-welcome-flowers.png",
-              objectPosition: "object-[68%_center]",
+              objectPosition: "object-[72%_center] sm:object-[68%_center]",
               href: "/tours",
               cta: "Explore Tours",
               secondaryHref: "/contact",
@@ -223,7 +223,7 @@ export default function HomeHeroCarousel() {
               description:
                 "Agriculture, food wholesale, structural steel, and sulfur—with sourcing, inspection, and logistics shaped around each requirement.",
               image: "/images/harvesting_brays_hero_product.png",
-              objectPosition: "object-[58%_center]",
+              objectPosition: "object-[55%_center] sm:object-[58%_center]",
               href: "/commodities",
               cta: "Explore Commodities",
               secondaryHref: "/contact",
@@ -239,8 +239,8 @@ export default function HomeHeroCarousel() {
                 "Purpose-built workwear and protective clothing, backed by reliable machinery and genuine auto-parts sourcing for operational needs.",
               image: "/images/auto-parts-airfreight.png",
               secondaryImage: "/images/uniforms-hero.png",
-              objectPosition: "object-center",
-              secondaryObjectPosition: "object-[68%_center]",
+              objectPosition: "object-[50%_center] sm:object-center",
+              secondaryObjectPosition: "object-[66%_center] sm:object-[68%_center]",
               href: "/uniforms",
               cta: "Explore Uniforms",
               secondaryHref: "/auto-parts",
@@ -322,7 +322,7 @@ export default function HomeHeroCarousel() {
 
   return (
     <section
-      className="relative min-h-[780px] overflow-hidden bg-[#05080b] text-white sm:min-h-[800px] lg:min-h-[820px]"
+      className="relative min-h-[820px] overflow-hidden bg-[#05080b] text-white sm:min-h-[800px] lg:min-h-[820px]"
       role="region"
       aria-roledescription="carousel"
       aria-label={ar ? "أنشطة شركة اثنين في واحد" : "Two in One company activities"}
@@ -392,7 +392,7 @@ export default function HomeHeroCarousel() {
                     ))}
                   </div>
                 ) : slide.secondaryImage ? (
-                  <div className="absolute inset-0 grid grid-cols-2">
+                  <div className="absolute inset-0 grid grid-rows-2 sm:grid-cols-2 sm:grid-rows-1">
                     <div className="relative">
                       <Image
                         src={slide.image}
@@ -431,24 +431,25 @@ export default function HomeHeroCarousel() {
         })}
       </div>
 
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/20 rtl:bg-gradient-to-l" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/25" />
+      <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,transparent_0%,transparent_44%,rgba(5,8,11,0.14)_56%,rgba(5,8,11,0.86)_78%,rgba(5,8,11,1)_100%)] sm:hidden" />
+      <div className="absolute inset-0 z-10 hidden bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/20 sm:block rtl:bg-gradient-to-l" />
+      <div className="absolute inset-0 z-10 hidden bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/25 sm:block" />
       {!reduceMotion && (
         <div
           key={`frame-${activeSlide.id}`}
           className={clsx(
-            "hero-frame-trace absolute inset-x-4 top-4 bottom-28 z-[15] rounded-2xl sm:inset-x-6 sm:top-6 sm:bottom-32 lg:inset-x-8 lg:top-8",
+            "hero-frame-trace absolute inset-x-6 top-6 bottom-32 z-[15] hidden rounded-2xl sm:block lg:inset-x-8 lg:top-8",
             !rotationRunning && "hero-animation-paused",
           )}
           aria-hidden="true"
         />
       )}
 
-      <div className="container relative z-20 mx-auto flex min-h-[780px] items-center px-5 pb-40 pt-10 sm:min-h-[800px] sm:px-8 lg:min-h-[820px] lg:px-12">
+      <div className="container relative z-20 mx-auto flex min-h-[820px] items-end px-5 pb-32 pt-[38vh] sm:min-h-[800px] sm:items-center sm:px-8 sm:pb-40 sm:pt-10 lg:min-h-[820px] lg:px-12">
         <div
           key={`${lang}-${activeSlide.id}`}
           className={clsx(
-            "hero-content-enter flex min-h-[470px] max-w-4xl flex-col justify-center",
+            "hero-content-enter flex min-h-0 max-w-4xl flex-col justify-end pb-4 text-shadow-premium sm:min-h-[470px] sm:justify-center sm:pb-0 sm:[text-shadow:none]",
             isRTL && "text-start",
           )}
           role="group"
@@ -456,7 +457,7 @@ export default function HomeHeroCarousel() {
           aria-label={`${activeIndex + 1} ${ar ? "من" : "of"} ${slides.length}: ${activeSlide.label}`}
           aria-live="off"
         >
-          <div className="mb-6 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-accent sm:text-[11px]">
+          <div className="mb-4 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-accent sm:mb-6 sm:text-[11px]">
             <span className="h-px w-8 bg-accent" />
             {activeSlide.eyebrow}
           </div>
@@ -465,8 +466,8 @@ export default function HomeHeroCarousel() {
             className={clsx(
               "max-w-4xl text-balance font-serif font-bold uppercase leading-[0.96] tracking-[-0.045em]",
               activeSlide.compactTitle
-                ? "text-[clamp(2rem,3.7vw,3.8rem)]"
-                : "text-[clamp(2.55rem,5.4vw,5.6rem)]",
+                ? "text-[clamp(1.7rem,7.5vw,2.25rem)] sm:text-[clamp(2rem,3.7vw,3.8rem)]"
+                : "text-[clamp(2rem,9vw,2.75rem)] sm:text-[clamp(2.55rem,5.4vw,5.6rem)]",
               isRTL && "font-arabic leading-[1.14] tracking-normal",
             )}
           >
@@ -474,11 +475,11 @@ export default function HomeHeroCarousel() {
             <span className="mt-2 block text-accent">{activeSlide.accentTitle}</span>
           </h1>
 
-          <p className="mt-7 max-w-2xl text-balance text-sm leading-7 text-white/76 sm:text-base lg:text-lg">
+          <p className="mt-4 max-w-2xl text-balance text-[13px] leading-5 text-white/82 sm:mt-7 sm:text-base sm:leading-7 sm:text-white/76 lg:text-lg">
             {activeSlide.description}
           </p>
 
-          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-2.5 sm:mt-9 sm:flex-row sm:gap-3">
             <Link
               href={activeSlide.href}
               className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-accent px-7 text-[11px] font-bold uppercase tracking-[0.16em] text-[#061016] transition-colors hover:bg-white"

@@ -21,20 +21,26 @@ export default function AboutPage() {
   return (
     <div className="bg-background flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
-      <section className="relative w-full h-[60vh] min-h-[400px] flex items-center overflow-hidden bg-[#06080b]">
+      <section className="relative flex h-[68svh] min-h-[540px] w-full items-end overflow-hidden bg-[#06080b] pb-12 pt-36 md:h-[60vh] md:min-h-[460px] md:items-center md:py-0">
         <div className="absolute inset-0 z-0">
           <Image
-            src="/images/home_hero.png"
-            alt="Bulker ship representing global reach"
+            src="/images/about-muttrah-corniche.png"
+            alt={
+              lang === "ar"
+                ? "كورنيش مطرح وميناؤها في مسقط"
+                : "Muttrah Corniche and harbour in Muscat"
+            }
             fill
-            priority
-            className="object-cover object-[98%_center] md:object-center opacity-40 hover:opacity-60 transition-opacity duration-500"
+            preload
+            sizes="100vw"
+            className="object-cover object-[72%_center] md:object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#06080b] via-[#06080b]/80 to-transparent" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(6,8,11,0.02)_0%,rgba(6,8,11,0.08)_44%,rgba(6,8,11,0.78)_76%,rgba(6,8,11,0.96)_100%)] md:hidden" />
+          <div className="absolute inset-0 hidden bg-gradient-to-r from-[#06080b] via-[#06080b]/72 to-transparent md:block rtl:bg-gradient-to-l" />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="max-w-3xl">
+          <div className={clsx("max-w-3xl", isRTL && "ms-auto text-start")}>
             <div className="mb-6 flex items-center gap-3">
               <Landmark className="w-6 h-6 text-accent" />
               <span className="text-accent font-serif italic tracking-wide">
