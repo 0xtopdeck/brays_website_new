@@ -431,7 +431,7 @@ export default function HomeHeroCarousel() {
         })}
       </div>
 
-      <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,transparent_0%,transparent_44%,rgba(5,8,11,0.14)_56%,rgba(5,8,11,0.86)_78%,rgba(5,8,11,1)_100%)] sm:hidden" />
+      <div className="absolute inset-0 z-10 bg-[linear-gradient(to_bottom,transparent_0%,transparent_44%,rgba(5,8,11,0.07)_56%,rgba(5,8,11,0.43)_78%,rgba(5,8,11,0.5)_100%)] sm:hidden" />
       <div className="absolute inset-0 z-10 hidden bg-gradient-to-r from-[#05080b] via-[#05080b]/84 to-[#05080b]/20 sm:block rtl:bg-gradient-to-l" />
       <div className="absolute inset-0 z-10 hidden bg-gradient-to-t from-[#05080b] via-transparent to-[#05080b]/25 sm:block" />
       {!reduceMotion && (

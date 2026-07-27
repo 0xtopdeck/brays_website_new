@@ -35,7 +35,7 @@ export default function AboutPage() {
             sizes="100vw"
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(6,8,11,0.02)_0%,rgba(6,8,11,0.08)_44%,rgba(6,8,11,0.78)_76%,rgba(6,8,11,0.96)_100%)] md:hidden" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(6,8,11,0.01)_0%,rgba(6,8,11,0.04)_44%,rgba(6,8,11,0.39)_76%,rgba(6,8,11,0.48)_100%)] md:hidden" />
           <div className="absolute inset-0 hidden bg-gradient-to-r from-[#06080b] via-[#06080b]/72 to-transparent md:block rtl:bg-gradient-to-l" />
         </div>
 
