@@ -6,10 +6,16 @@ import { useLanguage } from "./LanguageContext";
 import EmblemMark from "./EmblemMark";
 import { translations } from "@/lib/translations";
 import clsx from "clsx";
+import { Instagram, Linkedin, Music2 } from "lucide-react";
 
 export default function Footer() {
   const { lang, isRTL } = useLanguage();
   const t = translations[lang];
+  const socialPlaceholders = [
+    { name: "LinkedIn", icon: Linkedin },
+    { name: "Instagram", icon: Instagram },
+    { name: "TikTok", icon: Music2 },
+  ];
 
   return (
     <footer id="contact" className={clsx("bg-surface text-foreground border-t border-line mt-auto py-16 relative overflow-hidden", isRTL && "font-arabic")}>
@@ -26,6 +32,34 @@ export default function Footer() {
             <p className="text-muted max-w-md font-normal text-sm md:text-base leading-relaxed text-balance italic">
               {t.footer.tagline}
             </p>
+
+            <div className="mt-9">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-accent">
+                  {lang === "ar" ? "تابعونا" : "Follow Us"}
+                </span>
+                <span className="h-px w-8 bg-accent/35" />
+                <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-muted">
+                  {lang === "ar" ? "قريباً" : "Coming Soon"}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2.5">
+                {socialPlaceholders.map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <span
+                      key={social.name}
+                      aria-label={`${social.name} — ${lang === "ar" ? "الحساب قريباً" : "account coming soon"}`}
+                      title={lang === "ar" ? "سيتم إضافة رابط الحساب قريباً" : "Account link will be added soon"}
+                      className="inline-flex min-h-10 cursor-not-allowed items-center gap-2 rounded-full border border-line bg-foreground/[0.03] px-4 text-[10px] font-bold uppercase tracking-[0.12em] text-muted/80"
+                    >
+                      <Icon className="h-4 w-4 text-accent/75" aria-hidden="true" />
+                      <span>{social.name}</span>
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           {/* Contact Information */}
