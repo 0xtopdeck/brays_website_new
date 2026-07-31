@@ -46,7 +46,7 @@ export default function Home() {
       description: ar
         ? "تنفيذ متقن، وإنتاج إبداعي، وتنسيق سلس للفعاليات المؤسسية والخاصة."
         : "Refined execution, creative production, and seamless coordination for corporate and private occasions.",
-      image: "/images/Conference_TwoInOne.png",
+      image: "/images/events-opera-house-twoinone.png",
       objectPosition: "object-[68%_center]",
       href: "/events",
       label: ar ? "خطط لفعاليتك" : "Plan an Event",

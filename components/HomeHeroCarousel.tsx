@@ -57,7 +57,7 @@ export default function HomeHeroCarousel() {
               image: "/images/hvac_maintenance.png",
               collageImages: [
                 { src: "/images/hvac_maintenance.png", objectPosition: "object-[50%_center] sm:object-[64%_center]" },
-                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
+                { src: "/images/events-opera-house-twoinone.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
                 { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[55%_center] sm:object-[58%_center]" },
                 { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[72%_center] sm:object-[70%_center]" },
               ],
@@ -91,7 +91,7 @@ export default function HomeHeroCarousel() {
               accentTitle: "إلى آخر ضيف.",
               description:
                 "تنفيذ راقٍ للفعاليات وإنتاج إبداعي يجمع بين الدقة والتميّز البصري والتنسيق المتكامل.",
-              image: "/images/Conference_TwoInOne.png",
+              image: "/images/events-opera-house-twoinone.png",
               objectPosition: "object-[73%_center] sm:object-[68%_center]",
               href: "/events",
               cta: "خطط لفعالية",
@@ -158,7 +158,7 @@ export default function HomeHeroCarousel() {
               image: "/images/hvac_maintenance.png",
               collageImages: [
                 { src: "/images/hvac_maintenance.png", objectPosition: "object-[50%_center] sm:object-[64%_center]" },
-                { src: "/images/Conference_TwoInOne.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
+                { src: "/images/events-opera-house-twoinone.png", objectPosition: "object-[73%_center] sm:object-[68%_center]" },
                 { src: "/images/harvesting_brays_hero_product.png", objectPosition: "object-[55%_center] sm:object-[58%_center]" },
                 { src: "/images/tours-airport-welcome-flowers.png", objectPosition: "object-[72%_center] sm:object-[70%_center]" },
               ],
@@ -192,7 +192,7 @@ export default function HomeHeroCarousel() {
               accentTitle: "To the Final Guest.",
               description:
                 "Refined event execution and creative production, combining precision, visual excellence, and seamless coordination.",
-              image: "/images/Conference_TwoInOne.png",
+              image: "/images/events-opera-house-twoinone.png",
               objectPosition: "object-[73%_center] sm:object-[68%_center]",
               href: "/events",
               cta: "Plan an Event",
