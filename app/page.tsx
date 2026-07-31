@@ -363,7 +363,7 @@ export default function Home() {
               isRTL && "font-arabic leading-[1.18]"
             )}
           >
-            {ar ? "أخبرنا بما تريد تحقيقه." : "Tell us what you need to achieve."}
+            {ar ? "نحن في خدمتكم." : "We are at your service."}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-[#041018]/70">
             {ar

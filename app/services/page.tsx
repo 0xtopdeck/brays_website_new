@@ -96,7 +96,7 @@ export default function ServicesPage() {
       icon: Cpu,
       image: "/images/Smart_systems_security.png",
       label: ar ? "القدرة الرابعة" : "Capability IV",
-      title: ar ? "الأنظمة الذكية والأمن" : "Smart Systems & Security",
+      title: ar ? "الأنظمة الذكية وكاميرات المراقبة" : "Smart Systems & CCTV",
       lead: ar
         ? "أنظمة المراقبة والتحكم الإلكترونية ومنازل ذكية متكاملة - من كاميرات CCTV وأنظمة التحكم بالدخول إلى أتمتة المباني الكاملة."
         : "Electronic monitoring, access control, and fully-integrated smart-building automation - from CCTV and intrusion detection to centralized energy and HVAC control.",

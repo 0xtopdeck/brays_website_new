@@ -33,6 +33,19 @@ export default function Navbar() {
     name: t.nav[page.labelKey],
   }));
 
+  const COMMODITY_SUBPAGES = [
+    {
+      key: "AgricultureFood",
+      name: lang === "ar" ? "المنتجات الزراعية والغذائية" : "Agriculture & Food Products",
+      href: "/commodities/agriculture-food",
+    },
+    {
+      key: "ConstructionMaterials",
+      name: lang === "ar" ? "مواد البناء" : "Construction Materials",
+      href: "/commodities/construction-materials",
+    },
+  ];
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -133,19 +146,38 @@ export default function Navbar() {
                     )}>
                       <div className="w-72 rounded-2xl border border-line bg-background/95 p-2 shadow-2xl backdrop-blur-xl">
                         {ACTIVITY_PAGES.map((page) => (
-                          <Link
-                            key={page.key}
-                            href={page.href}
-                            className={clsx(
-                              "flex items-center justify-between rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-colors",
-                              activeKey === page.key
-                                ? "bg-accent text-background"
-                                : "text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
+                          <div key={page.key}>
+                            <Link
+                              href={page.href}
+                              className={clsx(
+                                "flex items-center justify-between rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-wider transition-colors",
+                                activeKey === page.key
+                                  ? "bg-accent text-background"
+                                  : "text-foreground/70 hover:bg-foreground/10 hover:text-foreground"
+                              )}
+                            >
+                              <span>{page.name}</span>
+                              <ArrowRight className={clsx("w-3.5 h-3.5", isRTL && "rotate-180")} />
+                            </Link>
+                            {page.key === "Commodities" && (
+                              <div className="mb-1 ms-4 mt-1 flex flex-col border-s border-line ps-2">
+                                {COMMODITY_SUBPAGES.map((child) => (
+                                  <Link
+                                    key={child.key}
+                                    href={child.href}
+                                    className={clsx(
+                                      "rounded-lg px-3 py-2 text-[10px] font-semibold uppercase tracking-wider transition-colors",
+                                      pathname === child.href
+                                        ? "bg-foreground/10 text-accent"
+                                        : "text-muted hover:bg-foreground/10 hover:text-foreground"
+                                    )}
+                                  >
+                                    {child.name}
+                                  </Link>
+                                ))}
+                              </div>
                             )}
-                          >
-                            <span>{page.name}</span>
-                            <ArrowRight className={clsx("w-3.5 h-3.5", isRTL && "rotate-180")} />
-                          </Link>
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -296,17 +328,35 @@ export default function Navbar() {
                             >
                               <div className="pb-3 ps-4 flex flex-col">
                                 {ACTIVITY_PAGES.map((page) => (
-                                  <Link
-                                    key={page.key}
-                                    href={page.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className={clsx(
-                                      "py-2.5 text-sm font-semibold",
-                                      activeKey === page.key ? "text-accent" : "text-muted hover:text-accent"
+                                  <div key={page.key}>
+                                    <Link
+                                      href={page.href}
+                                      onClick={() => setMobileMenuOpen(false)}
+                                      className={clsx(
+                                        "block py-2.5 text-sm font-semibold",
+                                        activeKey === page.key ? "text-accent" : "text-muted hover:text-accent"
+                                      )}
+                                    >
+                                      {page.name}
+                                    </Link>
+                                    {page.key === "Commodities" && (
+                                      <div className="mb-2 ms-3 flex flex-col border-s border-line ps-3">
+                                        {COMMODITY_SUBPAGES.map((child) => (
+                                          <Link
+                                            key={child.key}
+                                            href={child.href}
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className={clsx(
+                                              "py-2 text-xs font-semibold",
+                                              pathname === child.href ? "text-accent" : "text-muted hover:text-accent"
+                                            )}
+                                          >
+                                            {child.name}
+                                          </Link>
+                                        ))}
+                                      </div>
                                     )}
-                                  >
-                                    {page.name}
-                                  </Link>
+                                  </div>
                                 ))}
                               </div>
                             </motion.div>
